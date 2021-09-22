@@ -1,19 +1,50 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Login</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		
 		<script src="login.js"></script>
-		 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-		 <meta http-equiv="Pragma" content="no-cache">
-		 <meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+	</head>
+	
 	<body>
-		<form method="post" autocomplete="off"> 
-			Username
-			<input type = "text" id="user"><br>
-			Password
-			<input type = "password" id="passwd"><br>
-			<input type = "submit" value = "Log In" onclick="validate(login)">
-
-		</form>
-
+		<div class="container">
+			
+			<h2>Login Page</h2>
+			
+			<form class="form-horizontal" method="post" autocomplete="off">
+			
+				<div class="form-group">
+					<label class="control-label col-sm-1" for="user">Username:</label>
+					<div class="col-sm-2">
+					<input type="text" class="form-control" id="user" placeholder="Enter username" name="user">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-1" for="passwd">Password:</label>
+					<div class="col-sm-2">          
+					<input type="password" class="form-control" id="passwd" placeholder="Enter password" name="passwd">
+					</div>
+				</div>
+				
+				<div class="form-group">        
+					<div class="col-sm-offset-1 col-sm-10">
+					<input type = "submit" value = "Log In" onclick="validate(login)">
+					</div>
+				</div>
+			
+			</form>
+			
+		</div>
+		
 	</body>
+	
 </html>
