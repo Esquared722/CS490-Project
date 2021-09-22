@@ -14,21 +14,21 @@
 	</head>
 	
 	<body>
-		<div class="container">
+		<div class="container" align="center">
 			
 			<h2>Login Page</h2>
 			
 			<form class="form-horizontal" method="post" autocomplete="off">
 			
 				<div class="form-group">
-					<label class="control-label col-sm-1" for="user">Username:</label>
+					<label class="control-label col-sm-5" for="user">Username:</label>
 					<div class="col-sm-2">
 					<input type="text" class="form-control" id="user" placeholder="Enter username" name="user">
 					</div>
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label col-sm-1" for="passwd">Password:</label>
+					<label class="control-label col-sm-5" for="passwd">Password:</label>
 					<div class="col-sm-2">          
 					<input type="password" class="form-control" id="passwd" placeholder="Enter password" name="passwd">
 					</div>
@@ -36,7 +36,7 @@
 				
 				<div class="form-group">        
 					<div class="col-sm-offset-1 col-sm-10">
-					<input type = "submit" value = "Log In" onclick="validate(login)">
+					<input type = "button" id="login_button" value = "Log In">
 					</div>
 				</div>
 			
