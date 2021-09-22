@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	require(__DIR__."/dbconnection.php");
 	header("Content-Type: application/x-www-form-urlencoded");
 	$user = $_POST['user'];
@@ -8,6 +7,7 @@
 	$stmt->execute([":username"=>$user, ":password"=>$passwd]);
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);
 	if ($result) {
+		session_start();
 		$_SESSION["user"] = $user;
 		$_SESSION["role"] = $result["role"];
 		echo $result["role"];

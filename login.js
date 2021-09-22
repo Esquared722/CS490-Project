@@ -20,7 +20,7 @@ function validate() {
     	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange=(e)=>{
 	if (xhr.readyState == 4 && xhr.status == 200) {
-            login(xhr.responseText);
+	    login(xhr.responseText); 
 	}
     	};
 	xhr.send(payload);
