@@ -4,6 +4,7 @@
 function login(raw_data) {
 	const data = raw_data.trim();
     	if(data == 'Invalid Credentials') { 
+		// document.getElementById('invalid').innerHTML = 'INVALID CREDENTIALS';
         } else if (data == 'client') {
 		window.location = 'client.html';
         } else if (data == 'admin') {
