@@ -2,30 +2,31 @@
 
 
 function login(raw_data) {
-	//alert(data)
-	let data = raw_data.trim();
-    	if(data == 'Invalid Credentials') {
-		window.location.replace('login.html'); 
+	const data = raw_data.trim();
+    	if(data == 'Invalid Credentials') { 
         } else if (data == 'client') {
-		window.location.replace('client.html');
+		window.location = 'client.html';
         } else if (data == 'admin') {
-		window.location.replace('admin.html');
+		window.location = 'admin.html';
 	}
 }
 
-function validate(callback) {
-	let user = encodeURIComponent(document.getElementById('user').value);
-	let passwd = encodeURIComponent(document.getElementById('passwd').value);
+function validate() {
+	const user = encodeURIComponent(document.getElementById('user').value);
+	const passwd = encodeURIComponent(document.getElementById('passwd').value);
 	let xhr = new XMLHttpRequest();
-	let payload = "user=" + user + "&passwd=" + passwd;
+	const payload = "user=" + user + "&passwd=" + passwd;
 	xhr.open("POST", "login.php", true);
     	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange=(e)=>{
 	if (xhr.readyState == 4 && xhr.status == 200) {
-            callback(xhr.responseText);
+            login(xhr.responseText);
 	}
     	};
 	xhr.send(payload);
 }
 
-
+window.onload = () => {
+const submit = document.getElementById('login_button');
+submit.addEventListener('click', validate, false);
+};
