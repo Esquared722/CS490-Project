@@ -13,7 +13,7 @@ function list_exam_hrefs() {
 			var exam = json_exams[i];
 			var exam_link = document.createElement('a');
 			exam_link.textContent = exam.title;
-			exam_link.href = 'exam?id=' + exam.id + '.html';
+			exam_link.href = exam.graded ? 'exam.html?id=' + exam.id + 'graded=true' : 'exam.html?id=' + exam.id';
 			div.appendChild(exam_link);
 		}
 	
