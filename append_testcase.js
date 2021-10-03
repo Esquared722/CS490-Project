@@ -3,9 +3,9 @@ function add_tc_entry() {
 	var div = document.getElementById('testcases');
 	var tc = "<div id=\'tc" + i + "'>\n" +
 		"Testcase " + i + ":<br />\n" +	
-		"Input (func(...)): <input type=&quottext&quot name=&quot tc" + i + "[]&quot />\n" +
+		"Input (func(...)): <input type=&quottext&quot name=&quot tc" + i + "[] />\n" +
 		"<br />\n" +
-		"Expected Output: <input type=text name=tc" + i + "[]&quot />\n" +
+		"Expected Output: <input type=text name=tc" + i + "[] />\n" +
 		"<br />\n" +
 		"Points: <input type=text name=tc" + i + "[] />\n"+
 		"</div>"; 
