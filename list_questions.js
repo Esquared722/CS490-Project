@@ -1,6 +1,7 @@
 var re = new XMLHttpRequest();
-
+var div;
 window.onload = () => {
+	div = document.getElementById('question_list');
 	re.onreadystatechange = load_questions;
 	re.open("GET", 'get_questions.php', true);
 	re.send();
@@ -9,14 +10,16 @@ window.onload = () => {
 // loads_questions from DB as JSON
 function load_questions() {
 	if(re.readyState == 4) {
-		console.log(JSON.parse(re.responseText));
+		//console.log(JSON.parse(re.responseText));;
+		div.removeChild(div.childNodes[3]);
 		list_questions(JSON.parse(re.responseText));
+	} else if(re.readyState == 1) {
+		div.appendChild(document.createTextNode("Loading Question Bank..."));
 	}
 }
 
 // Lists Out Questions, separated by divs
 function list_questions(questions_json) {
-	var div = document.getElementById('question_list');
 	for(var i = 0; i < questions_json.length; i++) {
 		var question = questions_json[i],
 			question_div = document.createElement('div'),

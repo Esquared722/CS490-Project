@@ -1,8 +1,7 @@
 <?php
 session_start();
 require(__DIR__."/dbconnection.php");
-//header("Content-Type: text/json");
-$uid = 1;
+$uid = $_SESSION['uid'];
 $stmt = getDB()->prepare("select qid, title, prompt FROM Questions where uid = :uid");
 $stmt->bindValue(":uid", $uid);
 $stmt->execute();
