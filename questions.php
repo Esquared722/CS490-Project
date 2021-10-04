@@ -2,9 +2,12 @@
 session_start();
 require(__DIR__."/dbconnection.php");
 header("Content-Type: text/json");
-$sid = $_SESSION['sid'];
+$SID = $_SESSION['sid'];
+$UID = $_SESSION['uid'];
 // select qid, title, prompt from db WHERE sid = $sid;
 
+$stmt = getDB()=>prepare("SELECT * FROM Questions WHERE ");
+$stmt => execute();
 $questions = array();
 while($row = $result) {
 	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "testcases"=>array());
