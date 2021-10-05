@@ -7,9 +7,15 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-		<script src="client-home.js"></script>
-		<script src="gen-funcs.js"></script>
+		<script src="client_home.js"></script>
+		<script src="gen_funcs.js"></script>
 		<script src="get_student_exams.js"></script>
+	<script>
+		window.onload = () => {
+			check_session(session_callback);
+			load_student_exams();
+		};
+	</script>
 	</head>
 	<body>
 		<div class="jumbotron text-center">
