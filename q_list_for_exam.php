@@ -6,7 +6,7 @@ $SID = $_SESSION['sid'];
 $UID = $_SESSION['uid'];
 // select qid, title, prompt from db WHERE sid = $sid;
 
-$stmt = getDB()=>prepare("SELECT * FROM Questions WHERE ");
+$stmt = getDB()=>prepare("SELECT * FROM Questions WHERE UID = $UID");
 $stmt => execute();
 $questions = array();
 while($row = $result) {
