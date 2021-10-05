@@ -8,7 +8,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src="admin_home.js"></script>
-		<script src="gen-funcs.js"></script>
+		<script src="gen_funcs.js"></script>
+		<script> window.onload = check_session(session_callback, 'admin'); </script>
 	</head>
 	<body>
 		<div class="jumbotron text-center">
@@ -16,7 +17,7 @@
 			<p>Admin Landing Page</h1>
 		</div>
 		<input type="button" value="Questions" onclick="window.location = 'questions.html'"/>
-		<input type="button" value="Exams"/>
+		<input type="button" value="Exams" onclick="window.location = 'exams.html'"/>
 		<input type="button" value="Sign Out" onclick="logout()"/>
 	</body>
 </html>
