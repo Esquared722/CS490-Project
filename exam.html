@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>Exam</title>
+		<script src="load_exam.js"></script>
+	</head>
+	<body>
+		<h1 id="exam_title"></h1>
+		<hr />
+		<form method='POST' action='insert_exam_answers.php'>
+		<div id='exam_questions'/>
+			<ol id='question_list'>
+			</ol>
+		</div>
+		<input type="hidden" id="eid" name="eid"/>
+		<input type="submit" value="Submit Exam" disabled/>
+	</body>
+</html>
