@@ -12,7 +12,22 @@
 			} else {
 				button.disabled = true;
 			}
+		}
+	</script>;
+		<script>
+		window.onload = () => {
+			xhr = new XMLHttpRequest();
+			xhr.open('GET', 'session.php', true);
+			xhr.onreadystatechange=(e)=>{
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					const resp_obj = JSON.parse(xhr.responseText);
+					if(!resp_obj.user_name) {
+						window.location = 'login.html';
+					}
+				}
+			};
 		};
+		xhr.send();
 	</script>
 	</head>
 	<body>
@@ -21,7 +36,7 @@
 			<br />
 			*Prompt: <textarea rows="4" cols="50" id='prompt'  name="prompt"></textarea>
 			<br />
-			<input type="submit" id='send_question' value="Add Question" disabled/>
+
 			<br />
 			<div id="testcases">
 				<div id="tc1">
@@ -33,9 +48,11 @@
 					<br />
 					Points: <input type="text" name="tc1[]" />
 				</div>
-			</div>
+			</div>	
+			<input type="button" value= "Add TestCase +" onclick="add_tc_entry()" /><br />
+			<input type="submit" id='send_question' value="Add Question" disabled/>
 		</form>
 			<br />
-			<input type="button" value= "+" onclick="add_tc_entry()" />
+
 			<p>* = Required</p>
 	</body>

@@ -2,7 +2,7 @@ var re = new XMLHttpRequest();
 window.onload = () => {
 	re.open('GET', 'get_student_exams.php', true);
 	re.onreadystatechange = list_exam_hrefs;
-	re.send();
+//	re.send();
 };
 
 function list_exam_hrefs() {
@@ -11,10 +11,12 @@ function list_exam_hrefs() {
 		var div = document.getElementById('exam_list');
 		for (var i = 0; i < json_exams.length; i++) {
 			var exam = json_exams[i];
-			var exam_link = document.createElement('a');
-			exam_link.textContent = exam.title;
-			exam_link.href = exam.graded ? 'exam.html?id=' + exam.id + 'graded=true' : 'exam.html?id=' + exam.id';
-			div.appendChild(exam_link);
+			div.appendChild((() => {
+  				var exam_link = document.createElement('a');
+  				exam_link.textContent = exam.title;
+  				exam_link.href = exam.graded ? 'exam.html?id=' + exam.id + 'graded=true' : 'exam.html?id=' + exam.id;
+  			return exam_link;
+			})());
 		}
-	
+	}
 }
