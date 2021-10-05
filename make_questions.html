@@ -31,7 +31,7 @@
 	</script>
 	</head>
 	<body>
-		<form type="POST" action="insert_question.php" id="question_form">
+		<form method="POST" action="insert_question.php" id="question_form">
 			*Question Title: <input type="text" id="title" name="title" />
 			<br />
 			*Prompt: <textarea rows="4" cols="50" id='prompt'  name="prompt"></textarea>
@@ -42,11 +42,9 @@
 				<div id="tc1">
 					* Testcase 1:
 					<br />
-					Input (func(...)): <input type="text" name="tc1[]" />
+					Input (func(...)): <input type="text" name="test[]" />
 					<br />
-					Expected Output: <input type="text" name="tc1[]" />
-					<br />
-					Points: <input type="text" name="tc1[]" />
+					Expected Output: <input type="text" name="expected[]" />
 				</div>
 			</div>	
 			<input type="button" value= "Add TestCase +" onclick="add_tc_entry()" /><br />
