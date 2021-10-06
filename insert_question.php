@@ -33,5 +33,6 @@
 		$stmt->execute([":QID"=>$QID, ":test"=>$testCase, ":expected"=>$expected]);
 	}
 
-	echo "<script>window.location.replace = 'make_questions.html'; </script>
+	echo "<script>window.location.replace = 'make_questions.html'; </script>";
 ?>
+

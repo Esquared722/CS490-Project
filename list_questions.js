@@ -1,11 +1,11 @@
 var re = new XMLHttpRequest();
 var div;
-window.onload = () => {
+function get_questions() {
 	div = document.getElementById('question_list');
 	re.onreadystatechange = load_questions;
 	re.open("GET", 'get_questions.php', true);
 	re.send();
-};
+}
 
 // loads_questions from DB as JSON
 function load_questions() {
