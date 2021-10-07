@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<script src="gen_funcs.js"></script>
+		<script src="load_teacher_exams.js"></script>
+		<script> window.onload = check_session();load_teacher_exams(); </script>
+	</head>
+	<body>
+		<input type="button" value="Create Exam" onclick="window.location = 'make_exam.html'"/>
+		<div id='created_exams'></div>
+		<div id='completed_exams'></div>
+	</body>
+</html>

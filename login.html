@@ -7,7 +7,6 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-		
 		<script src="login.js"></script>
 		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 		<meta http-equiv="Pragma" content="no-cache">
@@ -34,6 +33,12 @@
 					<input type="password" class="form-control" id="passwd" placeholder="Enter password" name="passwd">
 					</div>
 				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-1 col-sm-10">
+					<span id="invalid" style="background-color:red;" value = "test">
+					</div>
+				</div>
 				
 				<div class="form-group">        
 					<div class="col-sm-offset-1 col-sm-10">
@@ -43,14 +48,14 @@
 				
 				<div class="form-group">        
 					<div class="col-sm-offset-1 col-sm-10">
-					<input type = "button" id="login_button" value = "Log In" onclick="document.getElementById('invalid').value = 'INVALID CREDENTIALS'">
+						<input type = "button" id="login_button" value = "Log In"> 
 					</div>
 				</div>
 			
 			</form>
 			
 		</div>
-		
 	</body>
 	
 </html>
+

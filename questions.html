@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script src="list_questions.js"></script>
+	<script>
+		window.onload = () => {
+			xhr = new XMLHttpRequest();
+			xhr.open('GET', 'session.php', true);
+			xhr.onreadystatechange=(e)=>{
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					const resp_obj = JSON.parse(xhr.responseText);
+					if(!resp_obj.user_name) {
+						window.location = 'login.html';
+					}
+				}
+			};
+		};
+		xhr.send();
+	</script> 
+	</head>
+	<body>
+		<input type="Button" value="Make Questions" onclick="window.location='make_questions.html'"/>
+		<div id='question_list'>
+			<h1>Question Bank</h1>
+		</div>
+	</body>
+</html>

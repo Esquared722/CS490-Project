@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<title>Make Questions Form</title>
+		<script src="append_testcase.js"></script>
+	<script>
+		window.onkeyup = () => {
+			var button = document.getElementById('send_question'),
+			title = document.getElementById('title').value,
+			prompt = document.getElementById('prompt').value;
+			if(title != '' &&  prompt != '') {
+				button.disabled = false;
+			} else {
+				button.disabled = true;
+			}
+		}
+	</script>;
+		<script>
+		window.onload = () => {
+			xhr = new XMLHttpRequest();
+			xhr.open('GET', 'session.php', true);
+			xhr.onreadystatechange=(e)=>{
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					const resp_obj = JSON.parse(xhr.responseText);
+					if(!resp_obj.user_name) {
+						window.location = 'login.html';
+					}
+				}
+			};
+		};
+		xhr.send();
+	</script>
+	</head>
+	<body>
+		<form method="POST" action="insert_question.php" id="question_form">
+			*Question Title: <input type="text" id="title" name="title" />
+			<br />
+			*Prompt: <textarea rows="4" cols="50" id='prompt'  name="prompt"></textarea>
+			<br />
+
+			<br />
+			<div id="testcases">
+				<div id="tc1">
+					* Testcase 1:
+					<br />
+					Input (func(...)): <input type="text" name="test[]" />
+					<br />
+					Expected Output: <input type="text" name="expected[]" />
+				</div>
+			</div>	
+			<input type="button" value= "Add TestCase +" onclick="add_tc_entry()" /><br />
+			<input type="submit" id='send_question' value="Add Question" disabled/>
+		</form>
+			<br />
+
+			<p>* = Required</p>
+	</body>
