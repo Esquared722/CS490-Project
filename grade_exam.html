@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>Grade Exam</title>
+		<script src="load_completed_exam.js"></script>
+		<script src="gen_funcs.js"></script>
+	<script>
+		window.onload = {
+			const urlParams = new URLSearchParams(window.location.search);;
+			check_session(undefined, "admin");
+			load_exam_answers(urlParams.get('uid'), urlParams.get('eid'));
+	};
+	</script>
+	</head>
+	<body>
+		<form method="POST" action="insert_instructor_grades.php">
+		</form>
+	</body>
+</html>

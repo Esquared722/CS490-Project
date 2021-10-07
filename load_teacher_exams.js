@@ -20,8 +20,9 @@ function load_made_exams() {
 function list_made_exams(exams_json) {
 	for (var i = 0; i < exams_json.length; i++) {
 		var exam = exams_json[i];
-		made_exams_div.appendChildNode(document.createTextNode(exam.title));
-		made_exams_div.appendChildNode(document.createElement('br'));
+		made_exams_div.appendChild(document.createTextNode(exam.title));
+		made_exams_div.appendChild(document.createElement('br'));
+		made_exams.div.appendChild(document.createElement('br'));
 	}
 }
 
@@ -39,7 +40,12 @@ function load_completed_exams() {
 function list_completed_exams(exams_json) {
 	for(var i = 0; i < exams_json.length; i++) {
 		var exam = exams_json[i];
-		var link = document.createElement('a');
-		link.textContent
+		var a_tag = document.createElement('a');
+		a_tag.textContent = exam.title + " - " + exam.student.name;
+		var href = "grade_exam.html?" + 
+			encodeURIComponent("uid=" + exam.student.id + 
+				"&eid=" + exam.id);
+		a_tag.href = href;
+
 	}
 }
