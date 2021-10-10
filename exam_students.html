@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>Exam Results</title>
+		<script src="gen_funcs.js"></script>
+		<script src="list_exam_students.js"></script>
+	<script>
+		window.onload = () => { 
+			const urlParams = new URLSearchParams(window.location.search);
+			//checkSession(undefined, "admin"); 
+			document.getElementById('exam_title').textContent = urlParams.get('title');
+			get_students(urlParams.get('eid'));
+		};
+	</script>
+	</head>
+	<body>
+		<h1 id='exam_title'></h1>
+		<div id='students'>
+			<table id='students_table'>	
+			</table>
+		</div>
+	</body>
+</html>

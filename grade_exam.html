@@ -5,7 +5,7 @@
 		<script src="gen_funcs.js"></script>
 	<script>
 		window.onload = {
-			const urlParams = new URLSearchParams(window.location.search);;
+			const urlParams = new URLSearchParams(window.location.search);
 			check_session(undefined, "admin");
 			load_exam_answers(urlParams.get('uid'), urlParams.get('eid'));
 	};

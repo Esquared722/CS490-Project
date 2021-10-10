@@ -28,8 +28,9 @@ function list_exams(exams_json) {
 		} else {
 			var a_tag = document.createElement('a');
 			a_tag.textContent = exam.title;
-			var href = "student_exams.html?" + 
-				encodeURIComponent("eid=" + exam.id);
+			var href = "exam_students.html?" + 
+				encodeURIComponent("eid=" + exam.id + 
+				"&title=" + exam.title);
 			a_tag.href = href;
 			child = a_tag;
 		}
