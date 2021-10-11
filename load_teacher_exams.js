@@ -1,45 +1,41 @@
-var re = new XMLHttpRequest(),
-	completed_exams_div,
-	made_exams_div;
+var re = new XMLHttpRequest();
+var in_progress_exams_div,
+	released_exams_div;
+
 function load_teacher_exams() {
-	load_made_exams();
+	load_exams();
 }
 
-function load_made_exams() {
-	made_exams_div = document.getElementById('made_exams');
-	re.open('GET', 'get_made_exams.php', true);
+function load_exams() {
+	in_progress_exams_div = document.getElementById('in_progress_exams');
+	released_exams_div = document.getElementById('released_exams');
+	re.open('GET', 'get_exams.php', true);
 	re.onreadystatechange = () => {
 		if (re.readyState == 4) {
-			list_made_exams(JSON.parse(re.responseText));
-			load_completed_exams();
+			list_exams(JSON.parse(re.responseText));
 		}
 	};
 	//re.send();
 }
 
-function list_made_exams(exams_json) {
+function list_exams(exams_json) {
 	for (var i = 0; i < exams_json.length; i++) {
 		var exam = exams_json[i];
-		made_exams_div.appendChildNode(document.createTextNode(exam.title));
-		made_exams_div.appendChildNode(document.createElement('br'));
-	}
-}
-
-function load_completed_exams() {
-	completed_exams_div = document.getElementById('completed_exams');
-	re.open('GET', 'get_completed_exams.php', true);
-	re.onreadystatechange = () => {
-		if (re.readyState == 4) {
-			list_completed_exams(JSON.parse(re.responseText));
+		var div = exam.released ? released_exams_div : in_progress_exams_div
+		var child;
+		if (exam.released) {
+			child = document.createTextNode(exam.title);
+		} else {
+			var a_tag = document.createElement('a');
+			a_tag.textContent = exam.title;
+			var href = "exam_students.html?" + 
+				encodeURIComponent("eid=" + exam.id + 
+				"&title=" + exam.title);
+			a_tag.href = href;
+			child = a_tag;
 		}
-	};
-	//re.send();
-}
-
-function list_completed_exams(exams_json) {
-	for(var i = 0; i < exams_json.length; i++) {
-		var exam = exams_json[i];
-		var link = document.createElement('a');
-		link.textContent
+		div.appendChild(child);
+		div.appendChild(document.createElement('br'));
+		div.appendChild(document.createElement('br'));
 	}
 }

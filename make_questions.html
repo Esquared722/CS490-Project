@@ -12,22 +12,10 @@
 			} else {
 				button.disabled = true;
 			}
-		}
-	</script>;
-		<script>
-		window.onload = () => {
-			xhr = new XMLHttpRequest();
-			xhr.open('GET', 'session.php', true);
-			xhr.onreadystatechange=(e)=>{
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					const resp_obj = JSON.parse(xhr.responseText);
-					if(!resp_obj.user_name) {
-						window.location = 'login.html';
-					}
-				}
-			};
 		};
-		xhr.send();
+	</script>
+	<script>
+		window.onload = { checksession(undefined, "admin") };
 	</script>
 	</head>
 	<body>
