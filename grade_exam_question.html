@@ -4,15 +4,24 @@
 		<script src="load_completed_exam.js"></script>
 		<script src="gen_funcs.js"></script>
 	<script>
-		window.onload = {
-			const urlParams = new URLSearchParams(window.location.search);
+		window.onload = () => {
+
 			check_session(undefined, "admin");
-			load_exam_answers(urlParams.get('uid'), urlParams.get('eid'));
+			get_exam_answers();
 	};
 	</script>
 	</head>
 	<body>
+		<h1 id="exam_title"></h1>
 		<form method="POST" action="insert_instructor_grades.php">
+			<table id='exam_submission'>
+				<tr>
+				    <td>Question #</td><td>Question Title (<input type="type" value="10" width="3em" name="grades[]"/>/10)</td>
+				</tr>
+				<tr>
+					<td>
+				</tr>
+			</table>
 		</form>
 	</body>
 </html>
