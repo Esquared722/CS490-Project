@@ -24,7 +24,7 @@ window.onload = () => {
 	re.onreadystatechange = load_exam_questions;
 	re.open('GET', 'get_exam_questions.php', true);
 	re.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	//re.send('eid=' + eid);
+	re.send('eid=' + eid);
 };
 
 // callback for loading exam JSON
