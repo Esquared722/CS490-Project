@@ -10,7 +10,6 @@ function load_exams() {
 	in_progress_exams_div = document.getElementById('in_progress_exams');
 	released_exams_div = document.getElementById('released_exams');
 	re.open('GET', 'get_exams.php', true);
-	re.onreadystatechange = () => {
 		if (re.readyState == 4) {
 			list_exams(JSON.parse(re.responseText));
 		}
