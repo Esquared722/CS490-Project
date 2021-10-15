@@ -10,7 +10,7 @@
 	
 	//Insert into Questions table
 	$stmt = getDB()->prepare("INSERT INTO Questions (title, prompt, UID) VALUES(:title, :prompt, :uid)");
-	$stmt->execute([":title"=>$title, ":prompt"=>$prompt, ":UID"=>$uid]);
+	$stmt->execute([":title"=>$title, ":prompt"=>$prompt, ":uid"=>$uid]);
 	
 	//Get recently created question QID
 	$qid = getDB()->lastInsertId();
@@ -21,6 +21,6 @@
 		$stmt->execute([":QID"=>$qid, ":test"=>$testCase, ":expected"=>$expected]);
 	}
 
-	echo "<script>window.location.replace = 'make_questions.html'; </script>";
+	echo "<script>window.location.replace('make_questions.html'); </script>";
 ?>
 

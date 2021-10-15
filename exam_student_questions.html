@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Questions</title>
+		<script src='gen_funcs.js'></script>
+		<script src='list_question_form_links.js'></script>
+		<script src='grade_calc.js'></script>
+	<script>
+		window.onload = () => {
+		//checkSession(undefined, "admin");
+		get_questions();
+		};
+	</script>
+	</head>
+	<body>
+		<h1 id='student_name'></h1>
+		<hr />
+		<table id='question_grade_table'>
+		</table>
+		<br />
+		<br />
+		<span id='total_grade'></span>
+		<br />
+		<br />
+		<form method="POST" action="update_exam_grade.php"/>
+			<input type='hidden' value='' id='grade_input' name='grade'/>
+			<input type='submit' value='Save Grades' />
+		</form>
+	</body>
+</html>

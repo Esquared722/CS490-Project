@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<title>Grade Exam</title>
+		<script src="load_completed_exam.js"></script>
+		<script src="gen_funcs.js"></script>
+	<script>
+		window.onload = () => {
+
+			//check_session(undefined, "admin");
+			//get_exam_answers();
+	};
+	</script>
+	</head>
+	<body>
+		<h1 id="exam_title"></h1>
+		<form method="POST" action="insert_instructor_grades.php">
+			<h1 id="q_title">Test Question</h1>
+			<h2 id="student_name">By: Eric</h2>
+			<h3>Grade: (<input type="number" value="10" style="width:4em"  name="grades[]"/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' value="10" disabled/>)</h3>
+			<table id='exam_submission'>
+				<tr>
+						<th>Answer:</th>
+						<th>TestCase Results:</th>
+				</tr>
+				<tr>
+					<td>
+						<pre id='answer'>def test(a, b):
+	return a + b
+						</pre>
+					</td>
+					<td>
+						<table id="tcs_results">
+							<tr>
+								<th>Input</th>
+								<th>Expected</th>
+								<th>Result</th>
+							</tr>
+							<tr>
+								<td>test(1,2)</td>
+								<td>3</td>
+								<td>Passed</td>
+							</tr>
+						</table>
+					</td>			  
+				</tr>
+				<tr>
+					<th>Comment:</th>
+				</tr>
+				<tr>
+					<td>
+						<textarea id="comment" cols=50 rows=4 name="comment"></textarea>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" id='qid' name='qid' value="qid" />
+			<input type="hidden" id='uid' name='uid' value='uid' />
+			<input type="submit"/>
+		</form>
+	</body>
+</html>

@@ -12,12 +12,42 @@
 		<script> window.onload = check_session(session_callback, 'admin'); </script>
 	</head>
 	<body>
+
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+			<div class="navbar-header">
+			  <a class="navbar-brand">PythonAutoGrader</a>
+			</div>
+			<ul class="nav navbar-nav">
+			  <li><a href="admin.html">Home</a></li>
+			  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Questions <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+				  <li><a href="questions.html">Question Bank</a></li>
+				  <li><a href="make_questions.html">Make Question</a></li>
+				</ul>
+			  </li>
+			  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Exams <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+				  <li><a href="exams.html">View Exams</a></li>
+				  <li><a href="make_exam.html">Make Exam</a></li>
+				</ul>
+			  </li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+			  <li><a href="login.html" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+			</ul>
+		  </div>
+		</nav>
+
 		<div class="jumbotron text-center">
 			<h1>Welcome <span id="header-fill"></span>!</h1>
 			<p>Admin Landing Page</h1>
 		</div>
+		<!--
 		<input type="button" value="Questions" onclick="window.location = 'questions.html'"/>
 		<input type="button" value="Exams" onclick="window.location = 'exams.html'"/>
 		<input type="button" value="Sign Out" onclick="logout()"/>
+		-->
+
 	</body>
 </html>
