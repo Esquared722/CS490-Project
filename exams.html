@@ -8,7 +8,11 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src="gen_funcs.js"></script>
 		<script src="load_teacher_exams.js"></script>
-		<script> window.onload = check_session(undefined, "admin");load_teacher_exams(); </script>
+	<script> window.onload = () => {
+		check_session(undefined, "admin");
+		load_teacher_exams(); 
+		};
+	</script>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse">

@@ -3,33 +3,32 @@ var in_progress_exams_div,
 	released_exams_div;
 
 function load_teacher_exams() {
-	load_exams();
+	in_progress_exams_div = document.getElementById('in_progress_exams');
+	re.onreadystatechange = load_exams;
+	re.open('GET', 'get_exams.php', true);
+	re.send();
 }
 
 function load_exams() {
-	in_progress_exams_div = document.getElementById('in_progress_exams');
-	released_exams_div = document.getElementById('released_exams');
-	re.open('GET', 'get_exams.php', true);
-		if (re.readyState == 4) {
-			list_exams(JSON.parse(re.responseText));
-		}
-	};
-	//re.send();
+	if (re.readyState === 4) {
+		list_exams(JSON.parse(re.responseText));
+	}
 }
 
 function list_exams(exams_json) {
 	for (var i = 0; i < exams_json.length; i++) {
 		var exam = exams_json[i];
-		var div = exam.released ? released_exams_div : in_progress_exams_div
+		var div = in_progress_exams_div
 		var child;
-		if (exam.released) {
+		if (exam.released === "1") {
+			div = document.getElementById('released_exams');
 			child = document.createTextNode(exam.title);
 		} else {
 			var a_tag = document.createElement('a');
 			a_tag.textContent = exam.title;
-			var href = "exam_students.html?" + 
-				encodeURIComponent("eid=" + exam.id + 
-				"&title=" + exam.title);
+			var href = "exam_students.html?eid=" + 
+				encodeURIComponent(exam.EID) + 
+				"&title=" + encodeURIComponent(exam.title);
 			a_tag.href = href;
 			child = a_tag;
 		}
