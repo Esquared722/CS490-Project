@@ -2,7 +2,7 @@ var re = new XMLHttpRequest();
 function load_student_exams() {
 	re.open('GET', 'get_student_exams.php', true);
 	re.onreadystatechange = list_exam_hrefs;
-//	re.send();
+	re.send();
 }
 
 function list_exam_hrefs() {
