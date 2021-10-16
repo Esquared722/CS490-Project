@@ -2,6 +2,13 @@
 	<head>
 		<title>Exam</title>
 		<script src="load_exam.js"></script>
+		<script src="gen_funcs.js"></script>
+	<script>
+		window.onload = () => {
+			check_session(undefined, 'client');
+			get_exam();
+		};
+	</script>
 	</head>
 	<body>
 		<h1 id="exam_title"></h1>
