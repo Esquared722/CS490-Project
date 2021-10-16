@@ -1,22 +1,22 @@
 <html>
 	<head>
-		<title>Grade Exam</title>
+		<title>Grade Exam Question</title>
 		<meta charset="UTF-8"/>
-		<script src="load_completed_exam.js"></script>
+		<script src="load_completed_exam_question.js"></script>
 		<script src="gen_funcs.js"></script>
 	<script>
 		window.onload = () => {
 			check_session(undefined, "admin");
-			//get_exam_answers();
+			get_exam_answer();
 	};
 	</script>
 	</head>
 	<body>
-		<h1 id="exam_title"></h1>
-		<form method="POST" action="insert_instructor_grades.php">
-			<h1 id="q_title">Test Question</h1>
-			<h2 id="student_name">By: Eric</h2>
-			<h3>Grade: (<input type="number" value="10" style="width:4em"  name="grades[]"/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' value="10" disabled/>)</h3>
+		<h1 id="exam_title">Exam: </h1>
+		<form method="POST" action="insert_instructor_question_grade.php">
+			<h2 id="q_title">Question: </h2>
+			<h3 id="student_name">Student: </h2>
+			<h3>Grade: (<input autocomplete="off" type="number" style="width:4em" id="grade" name="grade"/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' disabled/>)</h3>
 			<table id='exam_submission'>
 				<tr>
 						<th>Answer:</th>
@@ -24,22 +24,15 @@
 				</tr>
 				<tr>
 					<td>
-						<pre id='answer'>def test(a, b):
-	return a + b
-						</pre>
+						<pre id='answer'></pre>
 					</td>
 					<td>
-						<table id="tcs_results">
+						<table border="1" id="tcs_results">
 							<tr>
 								<th>Expected</th>
 								<th>Run</th>
 								<th>Result</th>
-							</tr>
-							<tr>
-								<td>add(1,2) → 3</td>
-								<td>3</td>
-								<td>Passed</td>
-							</tr>
+							</tr>	
 						</table>
 					</td>			  
 				</tr>
@@ -48,7 +41,7 @@
 				</tr>
 				<tr>
 					<td>
-						<textarea id="comment" cols=50 rows=4 name="comment"></textarea>
+						<textarea id="comment" cols=50 rows=4 name="comment" placeholder="Comment here..."></textarea>
 					</td>
 				</tr>
 			</table>
