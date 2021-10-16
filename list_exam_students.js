@@ -3,8 +3,8 @@ var students_table, table_row, student_name, grade;
 function get_students(eid) {
 	re.readystatechange = (eid) => load_students;
 	list_students(eid, test_json);
-	re.open('GET', 'get_exam_students.php');
-	//re.send('eid=' + eid);
+	re.open('GET', 'get_exam_students.php?eid=' + eid);
+	//re.send();
 }
 
 function load_students(eid) {
@@ -28,7 +28,6 @@ function list_students(eid, students_json) {
 		} else {
 		student_name.textContent = student.name;
 		}
-
 		grade.appendChild(document.createTextNode('Grade: ' + student.grade + '%'));
 		table_row.appendChild(student_name);
 		table_row.appendChild(grade);

@@ -6,7 +6,7 @@
 	<script>
 		window.onload = () => { 
 			const urlParams = new URLSearchParams(window.location.search);
-			//checkSession(undefined, "admin"); 
+			checkSession(undefined, "admin"); 
 			document.getElementById('exam_title').textContent = urlParams.get('title');
 			get_students(urlParams.get('eid'));
 		};
