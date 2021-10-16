@@ -6,8 +6,8 @@
 		<script src='grade_calc.js'></script>
 	<script>
 		window.onload = () => {
-		//checkSession(undefined, "admin");
-		get_questions();
+			check_session(undefined, "admin");
+			get_questions();
 		};
 	</script>
 	</head>
@@ -22,7 +22,8 @@
 		<br />
 		<br />
 		<form method="POST" action="update_exam_grade.php"/>
-			<input type='hidden' value='' id='grade_input' name='grade'/>
+			<input type='hidden' id='grade_input' name='grade'/>
+			<input type='hidden' id='eid' name='eid'/>
 			<input type='submit' value='Save Grades' />
 		</form>
 	</body>

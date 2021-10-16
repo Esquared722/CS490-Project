@@ -1,12 +1,12 @@
 <html>
 	<head>
 		<title>Grade Exam</title>
+		<meta charset="UTF-8"/>
 		<script src="load_completed_exam.js"></script>
 		<script src="gen_funcs.js"></script>
 	<script>
 		window.onload = () => {
-
-			//check_session(undefined, "admin");
+			check_session(undefined, "admin");
 			//get_exam_answers();
 	};
 	</script>
@@ -31,12 +31,12 @@
 					<td>
 						<table id="tcs_results">
 							<tr>
-								<th>Input</th>
 								<th>Expected</th>
+								<th>Run</th>
 								<th>Result</th>
 							</tr>
 							<tr>
-								<td>test(1,2)</td>
+								<td>add(1,2) → 3</td>
 								<td>3</td>
 								<td>Passed</td>
 							</tr>
@@ -52,8 +52,9 @@
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" id='qid' name='qid' value="qid" />
-			<input type="hidden" id='uid' name='uid' value='uid' />
+			<input type="hidden" id='qid' name='qid' />
+			<input type="hidden" id='uid' name='uid' />
+			<input type="hidden" id='eid' name='eid' />
 			<input type="submit"/>
 		</form>
 	</body>
