@@ -4,47 +4,45 @@ require(__DIR__."/dbconnection.php");
 $sid = $_SESSION['sid'];
 $eid = $_GET['eid'];
 $uid = $_GET['uid'];
-$stmt = getDB()->prepare("SELECT Title FROM Exams where EID = :eid");
-$stmt->execute([":eid" => $eid]);
-$row = $stmt->fetch();
-$examTitle = $row["Title"];
-$stmt = getDB()->prepare("SELECT user_name FROM Users where UID = :uid");
+$qid = $_GET["qid"];
+
+$stmt = getDB()->prepare("SELECT user_name FROM Users WHERE UID = :uid");
 $stmt->execute([":uid" => $uid]);
+$name = $stmt->fetch()["user_name"];
+
+$stmt = getDB()->prepare("SELECT Title FROM Questions WHERE QID = :qid");
+$stmt->execute([":qid" => $qid]);
+$questionTitle = $stmt->fetch()["Title"];
+
+$stmt = getDB()->prepare("SELECT Points FROM EQ WHERE EID = :eid AND QID = :qid");
+$stmt->execute([":eid" => $eid, ":qid" => $qid]);
+$pointsTotal = $stmt->fetch()["Points"];
+
+$stmt = getDB()->prepare("SELECT Answer, Comment, Points_Earned FROM Answers WHERE EID = :eid AND QID = :qid AND UID = :uid");
+$stmt->execute([":eid" => $eid, ":qid" => $qid, ":uid" => $uid]);
 $row = $stmt->fetch();
-$studentName = $row["user_name"];
+$answer = $row["Answer"];
+$comment = $row["Comment"];
+$pointsEarned = $row["Points_Earned"];
 
-$exams = ["exam_title"=>$examTitle, "student_name"=>$studentName, "exam_questions"=>[]];
+$question = ["name" => $name,"title" => $questionTitle, "answer" => $answer, "comments" => $comment, "points_earned" => $pointsEarned, "points_total" => $pointsTotal, "testcases" => []];
 
-$stmt = getDB()->prepare("SELECT QID, Points FROM EQ where EID = :eid");
+$stmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases where QID = :qid");
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	$question["total_pts"] = $row["Points"];
-	
-	$qstmt = getDB()->prepare("SELECT Title FROM Questions where QID = :qid");
-	$qstmt->execute([":qid" => $row["QID"]]);
-	$qrow = $stmt->fetch();
-	$question["title"] = $qrow["Title"];
-
-	$qstmt = getDB()->prepare("SELECT Answer, Comments FROM Answers WHERE EID = :eid AND UID = :uid AND QID = :qid");
-	$qstmt->execute([":eid" => $eid, ":uid" => $uid, ":qid" => $row["QID"]]);
-	$qrow = $stmt->fetch();
-	$question["answer"] = $qrow["Answers"];
-	$question["comments"] = $qrow["Comments"];
-
-	
-	//Testcases incomplete
-	$qstmt = getDB()->prepare("SELECT test, expected FROM TestCases where QID = :qid, UID = :uid");
-	$qstmt->execute([":qid" => $row["QID"], ":uid" => $uid]);
-	while($tcrow = $qstmt->fetch(PDO::FETCH_ASSOC)) {
-		$tcstmt = getDB()->prepare("SELECT Output, Result FROM QTCS WHERE QID = :qid, UID = :uid");
-		$tcstmt->execute([":qid" => $row["QID"], ":uid" => $uid]);
-		$question["testcases"] = ["test" => $tcrow["test"], "expected" => $tcrow["expected"], "user_output" => $tcrow["Output"], "result" => $tcrow["Result"]];
+	$tcid = $row["TCID"];
+	$test = $row["test"];
+	$expected = $row["expected"];
+	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid");
+	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid]);
+	$output = $qrow->fetch()["Output"];
+	$result = $qrow->fetch()["Result"];
+	if($result == 0) {
+		$result = false;
+	} else {
+		$result = true;
 	}
-	$qstmt = getDB()->prepare("SELECT Points_Earned FROM Answers where QID = :qid, UID = :uid, EID = :eid");
-	$qstmt->execute([":qid" => $row["QID"], ":uid" => $uid, ":eid" => $eid]);
-	
-	$question["points_earned_on_question"] = $qstmt->fetch();
-
-	array_push($exams["exam_questions"], $question);
+	$testcase = ["test" => $test, "expected" => $expected, "user_output" => $output, "result" => $result];
+	array_push($question["testcases"], $testcase);
 }
-echo json_encode($exams);
+echo json_encode($question);
 ?>
