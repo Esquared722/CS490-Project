@@ -3,10 +3,12 @@ var re = new XMLHttpRequest();
 
 // Send Request
 function get_questions() {
-	//list_questions(test_json);
+	list_questions(test_json);
 	document.getElementById('student_name').textContent = urlParams.get('name');
+	document.getElementById('eid').value = urlParams.get('eid');
+	document.getElementById('uid').value = urlParams.get('uid');
 	re.onreadystatechange = load_questions;
-	re.open("GET", "get_exam_student_questions.php?eid=" + urlParams.get('eid'), true);
+	re.open("GET", "get_exam_student_questions.php?eid=" + urlParams.get('eid') + "&uid=" + urlParams.get('uid'), true);
 	re.send();
 }
 
@@ -20,15 +22,15 @@ var test_json = [{qid: 1, title: "Test Q1", pts_earned: 10, pts_total: 10}, {qid
 // List Questions
 function list_questions(questions_json) {
 	var table = document.getElementById('question_grade_table');
-	for (var i = 0; i < questions_json.questions.length;) {
+	for (var i = 0; i < questions_json.length;) {
 		var table_row = document.createElement('tr'),
 		q_n = document.createElement('td'),
 		q_title = document.createElement('a'),
 		q_score = document.createElement('td');
-		var question = questions_json.questions[i];
+		var question = questions_json[i];
 		q_n.textContent = (++i) + '.';
 		q_title.textContent = question.title;
-		q_title.href = 'grade_exam.html?eid=' + urlParams.get('eid') + '&name=' + encodeURIComponent(urlParams.get('name')) + '&uid=' + urlParams.get('uid') + '&qid=' + question.qid;
+		q_title.href = 'grade_exam_question.html?eid=' + urlParams.get('eid') + '&name=' + encodeURIComponent(urlParams.get('name')) + '&uid=' + urlParams.get('uid') + '&qid=' + question.qid;
 		q_score.textContent = question.pts_earned + ' / ' + question.pts_total;
 		table_row.appendChild(q_n);
 		table_row.appendChild(q_title);
