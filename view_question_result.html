@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<title>Graded Exam Question</title>
+		<meta charset="UTF-8"/>
+		<script src="get_question_grade.js"></script>
+		<script src="gen_funcs.js"></script>
+	<script>
+		window.onload = () => {
+			check_session(undefined, "client");
+			get_exam_answer();
+	};
+	</script>
+	</head>
+	<body>
+		<h1 id="exam_title">Exam: </h1>
+		<h2 id="q_title">Question: </h2>
+		<h3>Grade: (<span id="grade"></span>/<span id='total_pts' name='total_pts'></span>)</h3>
+			<table id='exam_submission'>
+				<tr>
+						<th>Answer:</th>
+						<th>TestCase Results:</th>
+				</tr>
+				<tr>
+					<td>
+						<pre id='answer'></pre>
+					</td>
+					<td>
+						<table border="1" id="tcs_results">
+							<tr>
+								<th>Expected</th>
+								<th>Run</th>
+								<th>Result</th>
+							</tr>	
+						</table>
+					</td>			  
+				</tr>
+				<tr>
+					<th>Comment:</th>
+				</tr>
+				<tr>
+					<td>
+						<textarea id="comment" cols=50 rows=4 disabled></textarea>
+					</td>
+				</tr>
+			</table>
+			<button type="button" id='back_button'>Back to Question List</button>
+	</body>
+</html>
