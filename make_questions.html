@@ -50,28 +50,48 @@
 		  </div>
 		</nav>
 
-		<div>
-			<form method="POST" action="insert_question.php" id="question_form">
-				*Question Title: <input type="text" id="title" name="title" />
-				<br />
-				*Prompt: <textarea rows="4" cols="50" id='prompt'  name="prompt"></textarea>
-				<br />
+		<div class="container">
+			<form method="POST" class="form-horizontal" action="insert_question.php" id="question_form">
+				<div class="form-group">
+				  <label class="control-label col-sm-2">*Question Title:</label>
+				  <div class="col-sm-3">
+					<input type="text" class="form-control" id="title" name="title" placeholder="Ex) fun(a,b)">
+				  </div>
+				</div>
 
-				<br />
+				<div class="form-group">
+				  <label class="control-label col-sm-2">*Prompt:</label>
+				  <div class="col-sm-5">
+					<textarea class="form-control" id='prompt'  name="prompt" rows="4" cols="50" placeholder="Enter prompt here"></textarea>
+				  </div>
+				</div>
+
+
 				<div id="testcases">
-					<div id="tc1">
-						* Testcase 1:
-						<br />
-						Input (func(...)): <input type="text" name="test[]" />
-						<br />
-						Expected Output: <input type="text" name="expected[]" />
-					</div>
-				</div>	
-				<input type="button" value= "Add TestCase +" onclick="add_tc_entry()" /><br />
-				<input type="submit" id='send_question' value="Add Question" disabled/>
-			</form>
-				<br />
 
-				<p>* = Required</p>
+					<div class="form-group" id="tc1">
+					  <label class="control-label col-sm-2">*Testcase 1:</label><br>
+					  <label class="control-label col-sm-2">Input (func(...)):</label>
+					  <div class="col-sm-2">
+						<input type="text" class="form-control" name="test[]" placeholder="fun(1,2)">
+					  </div>
+					  <label class="control-label col-sm-2">Expected Output:</label>
+					  <div class="col-sm-2">
+						<input type="text" class="form-control" name="expected[]" placeholder="3">
+					  </div>
+					</div>
+
+				</div>	
+				<div class="text-right col-sm-2">
+					<input type="button" class="btn btn-info" value= "Add TestCase +" onclick="add_tc_entry()" />
+				</div>
+				<div class="text-right col-sm-7">
+					<input type="submit" class="btn btn-info" id='send_question' value="Add Question" disabled/>
+				</div>
+
+				
+			</form>
+			<br><br>
+			<p class="col-sm-2">* = Required</p>
 		</div>
 	</body>
