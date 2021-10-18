@@ -5,6 +5,8 @@ function get_exam_answer() {
 	document.getElementById('qid').value = urlParams.get('qid');
 	document.getElementById('uid').value = urlParams.get('uid');
 	document.getElementById('eid').value = urlParams.get('eid');
+	document.getElementById('title').value = urlParams.get('title');
+	document.getElementById('name').value = urlParams.get('name');
 	//list_exam_submission(test_json);
 	re.onreadystatechange = load_exam_submission;
 	re.open('GET', 'get_exam_submission.php?eid=' + urlParams.get('eid') + '&uid=' + urlParams.get('uid') + '&qid=' + urlParams.get('qid'), true);
