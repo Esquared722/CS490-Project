@@ -12,6 +12,7 @@ function load_questions() {
 	if(re.readyState == 4) {
 		console.log(JSON.parse(re.responseText));;
 		list_questions(JSON.parse(re.responseText));
+	}
 }
 
 // Lists Out Questions, separated by divs
