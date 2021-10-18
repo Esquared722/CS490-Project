@@ -19,8 +19,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	while($qrow = $qstmt->fetch(PDO::FETCH_ASSOC)){
 		//loop through questions and check each test case
 		$qid = $qrow["QID"];
-		$astmt = getDB()->prepare("SELECT Answer FROM Answers WHERE UID = :uid AND QID = :qid");
-		$astmt->execute([":uid" => $uid, ":qid" => $qid]);
+		$astmt = getDB()->prepare("SELECT Answer FROM Answers WHERE UID = :uid AND QID = :qid AND EID = :eid");
+		$astmt->execute([":uid" => $uid, ":qid" => $qid, ":eid" => $eid]);
 		$answer = $astmt->fetch()["Answer"];
 
 		$tstmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases WHERE QID = :qid");
