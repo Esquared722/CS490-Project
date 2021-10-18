@@ -36,14 +36,15 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$expected = $row["expected"];
 	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid");
 	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid]);
-	$output = $qrow->fetch()["Output"];
-	$result = $qrow->fetch()["Result"];
+	$qrow = $qstmt->fetch();
+	$output = $qrow["Output"];
+	$result = $qrow["Result"];
 	if($result == 0) {
 		$result = false;
 	} else {
 		$result = true;
 	}
-	$testcase = ["test" => $test, "expected" => $expected, "user_output" => $output, "result" => $result];
+	$testcase = ["input" => $test, "expected" => $expected, "user_output" => $output, "result" => $result];
 	array_push($question["testcases"], $testcase);
 }
 echo json_encode($question);
