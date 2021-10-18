@@ -11,11 +11,7 @@ window.onload = () => {
 function load_questions() {
 	if(re.readyState == 4) {
 		console.log(JSON.parse(re.responseText));;
-		div.removeChild(div.childNodes[3]);
 		list_questions(JSON.parse(re.responseText));
-	} else if(re.readyState == 1) {
-		div.appendChild(document.createTextNode("Loading Question Bank..."));
-	}
 }
 
 // Lists Out Questions, separated by divs
