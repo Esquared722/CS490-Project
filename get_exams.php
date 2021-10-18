@@ -9,7 +9,13 @@ $exams = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$exam["EID"] = $row["EID"];
 	$exam["title"] = $row["Title"];
-	$exam["released"] = $row["Released"];
+	
+	if ($row["Released"] == 0){
+		$exam["released"] = false;
+	} else {
+		$exam["released"] = true;
+	}
+	
 	array_push($exams, $exam);
 }
 echo json_encode($exams);

@@ -5,7 +5,7 @@ require(__DIR__."/dbconnection.php");
 $eid = $_GET["eid"];
 $sid = $_SESSION["sid"];
 
-$stmt = getDB()->prepare("SELECT UID, user_name FROM Users WHERE SID = :sid AND role = client");
+$stmt = getDB()->prepare("SELECT UID, user_name FROM Users WHERE SID = :sid AND role = 'client'");
 $stmt->execute([":sid" => $sid]);
 $students = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -18,39 +18,46 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$totalPointsEarned = 0;
 	while($qrow = $qstmt->fetch(PDO::FETCH_ASSOC)){
 		//loop through questions and check each test case
+		$qid = $qrow["QID"];
 		$astmt = getDB()->prepare("SELECT Answer FROM Answers WHERE UID = :uid AND QID = :qid");
 		$astmt->execute([":uid" => $uid, ":qid" => $qid]);
-		$answer = $astmt->fetch();
+		$answer = $astmt->fetch()["Answer"];
 
-		$tstmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases QID = :qid");
+		$tstmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases WHERE QID = :qid");
 		$tstmt->execute([":qid" => $qid]);
 		$numCases = 0;
 		$numCasesCorrect = 0;
 		while($trow = $tstmt->fetch(PDO::FETCH_ASSOC)) {
+			$test = $trow["test"];
 			$numCases += 1;
-			$fileName = $uid . $eid . $qrow["QID"] . $trow["TCID"] .".py";
-			$myfile = fopen($fileName, "w") or die ("Cant open");
+			$fileName = $_SERVER["DOCUMENT_ROOT"]."/$uid$eid$qid.test.py";
+			$myfile = fopen($fileName, "a") or die ("Cant open");
 			fwrite($myfile, $answer);
-			fwrite($myfile. "\n".$test);
+			fwrite($myfile, "\n"."print($test)");
 			fclose($myfile);
-			passthru("python3 " . $fileName, $output);
+			exec("python3 " . $fileName, $output);
 			$result = 0;
-			if($output === $trow["expected"]) {
+			if($output[0] === $trow["expected"]) {
 				$result = 1;
 				$numCasesCorrect += 1;
 			}
-			$tcstmt = getDB()->prepare("REPLACE INTO QTCS VALUES (:qid, :tcid, :uid, :result)");
-			$tcstmt->execute([":qid" => $row["QID"], ":tcid" => $row["TCID"], ":uid" => $uid, ":result" => $result]);
+			$tcstmt = getDB()->prepare("REPLACE INTO QTCS(QID, TCID, UID, Output, Result) VALUES (:qid, :tcid, :uid, :output, :result)");
+			$tcstmt->execute([":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output[0],":result" => $result]);
+			unset($output);
 			unlink($fileName);
 		}
 		$points_earned = $qrow["Points"] / $numCases * $numCasesCorrect;
 		$totalPoints += $qrow["Points"];
 		$totalPointsEarned += $points_earned;
-		$pstmt = getDB()->prepare("REPLACE INTO Answers (Points_Earned) VALUES (:points_earned) WHERE QID = :qid, EID = :eid, UID = :uid");
-		$pstmt->execute([":points_earned" = > $points_earned, ":eid" => $row["EID"], ":qid" => $row["QID"], ":uid" => $uid]);
+		$pstmt = getDB()->prepare("UPDATE Answers SET Points_Earned = :points_earned WHERE QID = :qid AND EID = :eid AND UID = :uid");
+		$pstmt->execute([":points_earned" => $points_earned, ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
 	}
-	$student = ["username" => ($totalPoints/$totalPointsEarned)];
+	$finalGrade = ($totalPointsEarned/$totalPoints) * 100;
+	$student = ["username" => $finalGrade];
 	array_push($students, $student);
+	$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
+	$stmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
+
 }
 echo json_encode($students);
 ?>
