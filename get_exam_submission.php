@@ -2,8 +2,13 @@
 session_start();
 require(__DIR__."/dbconnection.php");
 $sid = $_SESSION['sid'];
+if($_SESSION["role"] == "client") {
+	$uid = $_SESSION["uid"];
+} else {
+	$uid = $_GET['uid'];
+}
+
 $eid = $_GET['eid'];
-$uid = $_GET['uid'];
 $qid = $_GET["qid"];
 
 $stmt = getDB()->prepare("SELECT user_name FROM Users WHERE UID = :uid");
@@ -34,8 +39,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$tcid = $row["TCID"];
 	$test = $row["test"];
 	$expected = $row["expected"];
-	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid");
-	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid]);
+	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid AND EID = :eid");
+	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid, ":eid" => $eid]);
 	$qrow = $qstmt->fetch();
 	$output = $qrow["Output"];
 	$result = $qrow["Result"];
@@ -44,7 +49,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	} else {
 		$result = true;
 	}
-	$testcase = ["input" => $test, "expected" => $expected, "user_output" => $output, "result" => $result];
+	$testcase = ["input" => $test, "expected" => $expected, "output" => $output, "result" => $result];
 	array_push($question["testcases"], $testcase);
 }
 echo json_encode($question);

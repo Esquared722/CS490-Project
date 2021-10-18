@@ -22,6 +22,7 @@
 			$j++;
 		}
 		$pts = $points[$j];
+		$j++;
 		$stmt->execute([":EID"=>$EID, ":QID"=>$QID, ":points"=>$pts]);
 	}
 	$stmt = getDB()->prepare("SELECT UID FROM Users WHERE SID = :sid AND role = 'client'");
