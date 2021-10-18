@@ -4,7 +4,7 @@ require(__DIR__."/dbconnection.php");
 $sid = $_SESSION["sid"];
 $eid = $_POST["eid"];
 $qids = $_POST["qid"];
-$answers = $_POST["answer"];
+$answers = $_POST["answers"];
 $uid = $_SESSION["uid"];
 for ($i = 0; $i < count($qids); $i++) {
 	$stmt = getDB()->prepare("INSERT INTO Answers(UID, EID, QID, Answer) VALUES(:uid, :eid, :qid, :answer)");

@@ -60,6 +60,7 @@ function load_grades() {
 }
 
 function update_grades(grade_json) {
+	student_table = document.getElementById("students_table");
 	for (var i = 1; i < student_table.childNodes.length; i++) {
 		var tr = student_table.childNodes[i],
 			grade = tr.childNodes[2];
