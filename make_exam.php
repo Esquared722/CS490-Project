@@ -24,5 +24,11 @@
 		$pts = $points[$j];
 		$stmt->execute([":EID"=>$EID, ":QID"=>$QID, ":points"=>$pts]);
 	}
-	echo "<script>window.location.replace('exams.html') </script>";
+	$stmt = getDB()->prepare("SELECT UID FROM Users WHERE SID = :sid AND role = 'client'");
+	$stmt->execute([":sid"=>$sid]);
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {	
+		$estmt = getDB()->prepare("INSERT INTO STE (UID, EID, Completed) VALUES(:UID, :EID, :completed)");
+		$estmt->execute([":UID"=>$row["UID"], ":EID"=>$EID, ":completed"=>0]);
+	}
+	echo "<script>window.location.replace('exams.html');</script>";
 ?>

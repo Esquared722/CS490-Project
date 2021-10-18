@@ -28,6 +28,8 @@ $pointsEarned = $row["Points_Earned"];
 $question = ["name" => $name,"title" => $questionTitle, "answer" => $answer, "comments" => $comment, "points_earned" => $pointsEarned, "points_total" => $pointsTotal, "testcases" => []];
 
 $stmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases where QID = :qid");
+$stmt->execute([":qid" => $qid]);
+
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$tcid = $row["TCID"];
 	$test = $row["test"];
