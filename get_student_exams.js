@@ -10,12 +10,13 @@ function list_exam_hrefs() {
 		var json_exams = JSON.parse(re.responseText);
 		for (var i = 0; i < json_exams.length; i++) {
 			var exam = json_exams[i];
-			var div = exam.released === "1" ? document.getElementById('graded_exams') : document.getElementById('not_completed_exams');
+			var div = exam.released ? document.getElementById('graded_exams') : !exam.completed ? document.getElementById('not_completed_exams') : return;
 			div.appendChild((() => {
   				var exam_link = document.createElement('a');
   				exam_link.textContent = exam.title;
-				if (exam.released === "1") {
+				if (exam.released) {
 					exam_link.href = 'view_exam_questions.html?eid=' + exam.EID + "&title=" + encodeURIComponent(exam.title);
+					exam_link.textContent += " Grade:  " + exam.grade; 
 				} else if (!exam.completed) {
 					exam_link.href ='exam.html?id=' + exam.EID;
 				}
@@ -25,3 +26,4 @@ function list_exam_hrefs() {
 		}
 	}
 }
+
