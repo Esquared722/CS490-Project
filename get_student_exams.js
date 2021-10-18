@@ -15,7 +15,7 @@ function list_exam_hrefs() {
   				var exam_link = document.createElement('a');
   				exam_link.textContent = exam.title;
 				if (exam.released === "1") {
-					exam_link.href = 'exam_results.html?id=' + exam.EID;
+					exam_link.href = 'view_exam_questions.html?eid=' + exam.EID + "&title=" + encodeURIComponent(exam.title);
 				} else if (!exam.completed) {
 					exam_link.href ='exam.html?id=' + exam.EID;
 				}

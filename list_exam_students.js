@@ -1,15 +1,26 @@
 var re = new XMLHttpRequest();
 const urlParams = new URLSearchParams(window.location.search);
-var students_table, table_row, student_name, grade;
+var students_table, table_row, student_name, grade, n;
 function get_students() {
 	const eid = urlParams.get('eid');
-	re.readystatechange = load_students;
-	list_students(test_json);
+	re.onreadystatechange = load_students;
+	//list_students(test_json);
 	re.open('GET', 'get_exam_students.php?eid=' + eid);
-	//re.send();
+	re.send();
+
+	// add Event Listeners
+	document.getElementById('auto_grade_button').addEventListener("click", () => {
+	re.open("GET", "auto_grade.php?eid=" + urlParams.get('eid'));
+	re.onreadystatechange = load_grades;
+	re.send();
+	});
+	document.getElementById('release_button').addEventListener("click", () => {
+	re.open("GET", "release_exam.php", true);
+	re.send()
+	});
 }
 
-function load_students(eid) {
+function load_students() {
 	if (re.readyState === 4) {
 		list_students(JSON.parse(re.responseText));
 	}
@@ -21,30 +32,27 @@ function list_students(students_json) {
 	students_table = document.getElementById('students_table');
 	for (var i = 0; i < students_json.length; i++) {
 		table_row = document.createElement('tr');
+		n = document.createElement('span');
+		n.textContent = (i + 1) + '.';
+		table_row.appendChild(n);
 		student_name = document.createElement('td');
 		grade = document.createElement('td');
 		const student = students_json[i];
 		if (student.completed) {
 			var a_tag = document.createElement('a');
 			a_tag.textContent = student.name;
-			a_tag.href = "exam_student_questions.html?uid=" + student.uid + '&eid=' + eid + '&name=' + encodeURIComponent(student.name);
+			a_tag.href = "exam_student_questions.html?uid=" + student.uid + '&eid=' + eid + '&name=' + encodeURIComponent(student.name) + "&title=" + encodeURIComponent(urlParams.get('title'));
 			student_name.appendChild(a_tag);
 		} else {
 		student_name.textContent = student.name;
 		}
-		grade.appendChild(document.createTextNode('Grade: ' + student.grade + '%'));
+		student.grade ? grade.appendChild(document.createTextNode(student.grade + '%')) : grade.appendChild(document.createTextNode('UNGRADED'));
 		table_row.appendChild(student_name);
 		table_row.appendChild(grade);
 		students_table.appendChild(table_row);
 
 	}
 }
-
-document.getElementById('auto_grade_button').addEventListener("click", () => {
-	re.open("GET", "auto_grade.php?eid=" + urlParams.get('eid'));
-	re.onreadystatechange = load_grades;
-	re.send();
-});
 
 function load_grades() {
 	if (re.readyState !== 4) return;
@@ -58,8 +66,3 @@ function update_grades(grade_json) {
 		grade.textContent = grade_json[tr.childNodes[0].textContent] + "%";
 	}
 }
-
-document.getElementById('release_button').addEventListener("click", () => {
-	re.open("GET", "release_exam.php", true);
-	re.send()
-});

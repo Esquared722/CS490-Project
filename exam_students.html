@@ -4,11 +4,13 @@
 		<script src="gen_funcs.js"></script>
 		<script src="list_exam_students.js"></script>
 	<script>
-		window.onload = () => { 
+		window.onload = () => {
 			const urlParams = new URLSearchParams(window.location.search);
-			checkSession(undefined, "admin"); 
+			check_session(undefined, "admin"); 
 			document.getElementById('exam_title').textContent = urlParams.get('title');
-			get_students(urlParams.get('eid'));
+			document.getElementById('back_button').addEventListener('click', () => {window.location = 'exams.html'});
+			get_students();
+
 		};
 	</script>
 	</head>
@@ -16,8 +18,9 @@
 		<h1 id='exam_title'></h1>
 		<hr />
 		<div id='students'>
-			<table id='students_table'>
-				<tr> 
+			<table  id='students_table'>
+				<tr>
+					<th></th>
 					<th>Student(s)</th>
 					<th>Exam Grade(s)</th>
 				</tr>
@@ -29,5 +32,8 @@
 		<br />
 		<br />
 		<button id="release_button" type="button">Release Grades</button>
+		<br />
+		<br />
+		<button id="back_button" type="button">Back to Exam List</button>
 	</body>
 </html>

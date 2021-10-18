@@ -38,7 +38,7 @@ function list_exam_questions(exam_json) {
 		question_id = document.createElement('input');	
 		question_id.type = 'hidden';
 		question_id.name = 'qid[]';
-		question_answer.name = 'answer[]';
+		question_answer.name = 'answers[]';
 
 		// Fill Template
 		question_id.value = question.qid;

@@ -12,12 +12,12 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$qid = $row["QID"];
 	$pointsTotal = $row["Points"];
 	$qstmt = getDB()->prepare("SELECT Title FROM Questions where QID = :qid");
-	$qstmt->execute([":qid => $qid"]);
-	$title = $qstmt->fetch();
+	$qstmt->execute([":qid" => $qid]);
+	$title = $qstmt->fetch()['Title'];
 
 	$qstmt = getDB()->prepare("SELECT Points_Earned FROM Answers where UID = :uid AND EID = :eid AND QID = :qid");
-	$qstmt->execute([":uid" => $uid, ":eid" => $eid, ":qid => $qid"]);
-	$pointsEarned = $qstmt->fetch();
+	$qstmt->execute([":uid" => $uid, ":eid" => $eid, ":qid" => $qid]);
+	$pointsEarned = $qstmt->fetch()['Points_Earned'];
 	$question = ["qid" => $qid, "title" => $title, "pts_earned" => $pointsEarned, "pts_total" => $pointsTotal];	
 	
 	array_push($questions, $question);
