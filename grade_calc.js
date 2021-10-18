@@ -9,6 +9,5 @@ function calc_grade() {
 		grand_total += parseInt(values[1]);
 	}
 	grade = sum_earned / grand_total * 100;
-	document.getElementById('grade_input').value = grade;
 	document.getElementById('total_grade').textContent = sum_earned + ' / ' + grand_total + ' = ' + grade + '%';
 }

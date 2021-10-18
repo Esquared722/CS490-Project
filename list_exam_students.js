@@ -15,7 +15,8 @@ function get_students() {
 	re.send();
 	});
 	document.getElementById('release_button').addEventListener("click", () => {
-	re.open("GET", "release_exam.php", true);
+	re.onreadystatechange = release_grades;
+	re.open("GET", "release_exam.php?eid=" + urlParams.get('eid'), true);
 	re.send()
 	});
 }
@@ -61,9 +62,15 @@ function load_grades() {
 
 function update_grades(grade_json) {
 	student_table = document.getElementById("students_table");
-	for (var i = 1; i < student_table.childNodes.length; i++) {
+	for (var i = 2; i < student_table.childNodes.length; i++) {
 		var tr = student_table.childNodes[i],
-			grade = tr.childNodes[2];
-		grade.textContent = grade_json[tr.childNodes[0].textContent] + "%";
+			grade = tr.childNodes[2],
+			name = tr.childNodes[1].textContent;
+		grade.textContent = grade_json[name] + "%";
 	}
+}
+
+function release_grades() {
+	if (re.readyState !== 4) return;
+	window.location = "exams.html";
 }

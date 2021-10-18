@@ -2,7 +2,11 @@
 session_start();
 require(__DIR__."/dbconnection.php");
 $sid = $_SESSION["sid"];
-$uid = $_GET["uid"];
+if($_SESSION["role"] == "client") {
+	$uid = $_SESSION["uid"];
+} else {
+	$uid = $_GET["uid"];
+}	
 $eid = $_GET["eid"];
 $stmt = getDB()->prepare("SELECT QID, Points FROM EQ where EID = :eid");
 $stmt->execute([":eid" => $eid]);

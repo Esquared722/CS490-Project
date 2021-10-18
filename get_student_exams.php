@@ -15,7 +15,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	} else {
 		$exam["released"] = true;
 	}
-	$estmt = getDB()->prepare("SELECT Completed FROM STE where UID = :uid AND EID = :eid");
+	$estmt = getDB()->prepare("SELECT Completed, Grade FROM STE where UID = :uid AND EID = :eid");
 	$estmt->execute([":uid" => $uid, ":eid" => $exam["EID"]]);
 	$erow = $estmt->fetch();	
 	if($erow["Completed"] == 0) {
@@ -23,6 +23,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	} else {
 		$exam["completed"] = true;
 	}
+	$exam["grade"] = $erow["Grade"];
 	
 	array_push($exams, $exam);
 }

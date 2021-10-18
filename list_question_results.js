@@ -4,10 +4,15 @@ var re = new XMLHttpRequest();
 // Send Request
 function get_questions() {
 	document.getElementById('exam_title').textContent = urlParams.get('title') + ": Questions";
-	list_questions(test_json);
+	//list_questions(test_json);
 	re.onreadystatechange = load_questions;
 	re.open("GET", "get_exam_student_questions.php?eid=" + urlParams.get('eid'), true);
-	//re.send();
+	re.send();
+
+	// ADD Event Listner
+	document.getElementById('back_button').addEventListener("click", () => {
+		window.location = "client.html";
+	});
 }
 
 // Load Response Text
@@ -28,7 +33,7 @@ function list_questions(questions_json) {
 		var question = questions_json[i];
 		q_n.textContent = (++i) + '.';
 		q_title.textContent = question.title;
-		q_title.href = 'view_question_result.html?eid=' + urlParams.get('eid') + '&qid=' + question.qid;
+		q_title.href = 'view_question_result.html?eid=' + urlParams.get('eid') + '&qid=' + question.qid + '&title=' + urlParams.get('title');
 		q_score.textContent = question.pts_earned + ' / ' + question.pts_total;
 		table_row.appendChild(q_n);
 		table_row.appendChild(q_title);

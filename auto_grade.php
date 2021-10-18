@@ -41,8 +41,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$result = 1;
 				$numCasesCorrect += 1;
 			}
-			$tcstmt = getDB()->prepare("REPLACE INTO QTCS(QID, TCID, UID, Output, Result) VALUES (:qid, :tcid, :uid, :output, :result)");
-			$tcstmt->execute([":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output[0],":result" => $result]);
+			$tcstmt = getDB()->prepare("REPLACE INTO QTCS(EID, QID, TCID, UID, Output, Result) VALUES (:eid, :qid, :tcid, :uid, :output, :result)");
+			$tcstmt->execute([":eid"=>$eid, ":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output[0],":result" => $result]);
 			unset($output);
 			unlink($fileName);
 		}
@@ -53,11 +53,12 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$pstmt->execute([":points_earned" => $points_earned, ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
 	}
 	$finalGrade = ($totalPointsEarned/$totalPoints) * 100;
-	$student = ["username" => $finalGrade];
-	array_push($students, $student);
 	$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
 	$stmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
-
+	$stmt = getDB()->prepare("SELECT Grade FROM STE WHERE UID = :uid AND EID = :eid");
+	$stmt->execute([":uid" => $uid, ":eid" => $eid]);
+	$finalGrade = $stmt->fetch()["Grade"];
+	$students = [$userName => $finalGrade];
 }
 echo json_encode($students);
 ?>

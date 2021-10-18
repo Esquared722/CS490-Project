@@ -22,9 +22,9 @@ $stmt = getDB()->prepare("SELECT SUM(Points) Points FROM EQ WHERE EID = :eid");
 $stmt->execute([":eid" => $eid]);
 $totalPoints = $stmt->fetch()["Points"];
 
-$finalGrade = $totalPointsEarned / $totalPoints;
+$finalGrade = ($totalPointsEarned / $totalPoints) * 100;
 
-$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid EID = :eid");
+$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
 $stmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
 
 echo "<script>window.location.replace('exam_student_questions.html?uid=$uid&eid=$eid&title=$title&name=$name');</script>";
