@@ -20,7 +20,7 @@ function list_exams(exams_json) {
 		var exam = exams_json[i];
 		var div = in_progress_exams_div
 		var child;
-		if (exam.released === "1") {
+		if (exam.released) {
 			div = document.getElementById('released_exams');
 			child = document.createTextNode(exam.title);
 		} else {

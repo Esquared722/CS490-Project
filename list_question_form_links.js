@@ -5,11 +5,13 @@ var re = new XMLHttpRequest();
 function get_questions() {
 	//list_questions(test_json);
 	document.getElementById('student_name').textContent = urlParams.get('name');
-	document.getElementById('eid').value = urlParams.get('eid');
-	document.getElementById('uid').value = urlParams.get('uid');
 	re.onreadystatechange = load_questions;
 	re.open("GET", "get_exam_student_questions.php?eid=" + urlParams.get('eid') + "&uid=" + urlParams.get('uid'), true);
 	re.send();
+
+	// Add Event Listener
+	document.getElementById("back_button").addEventListener("click", () => {window.location = 'exam_students.html?eid=' + urlParams.get('eid') + '&title=' + urlParams.get('title');
+	});
 }
 
 // Load Response Text
