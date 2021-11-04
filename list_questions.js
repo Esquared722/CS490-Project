@@ -26,6 +26,7 @@ function list_questions(questions_json) {
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
 		card_div.className = "card";
+		card_div.style.width = "36rem"
 		question_div.className = "card-body";
 		title.textContent = "Title: " + question.title;
 		title.className = "card-title";
@@ -51,8 +52,8 @@ function list_questions(questions_json) {
 			testcase_li.appendChild(tc_expected);
 			testcase_list.appendChild(testcase_li);
 		}
-		question_div.appendChild(testcase_list);
-		card_div.appendChild(question_div)
+		card_div.appendChild(question_div);
+		card_div.appendChild(testcase_list);
 		div.appendChild(card_div);
 	}
 }
