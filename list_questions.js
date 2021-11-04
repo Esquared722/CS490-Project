@@ -20,12 +20,12 @@ function list_questions(questions_json) {
 	for(var i = 0; i < questions_json.length; i++) {
 		var question = questions_json[i],
 			question_div = document.createElement('div'),
-			question_div.className = "card",
 			title = document.createElement('h2'),
 			prompt = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
-			title.textContent = "Title: " + question.title;
+		question_div.className = "card";
+		title.textContent = "Title: " + question.title;
 		question_div.appendChild(title);
 		prompt.textContent = "Prompt: " + question.prompt;
 		question_div.appendChild(prompt);
@@ -33,9 +33,9 @@ function list_questions(questions_json) {
 		question_div.appendChild(testcase_header);
 		for (var j = 0; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
-			tc_input = document.createElement('p'),
-			tc_expected = document.createElement('p'),
-			testcase = question.testcases[j];
+				tc_input = document.createElement('p'),
+				tc_expected = document.createElement('p'),
+				testcase = question.testcases[j];
 			tc_input.textContent = "Input:\n" + testcase.test;
 			testcase_li.appendChild(tc_input);
 			tc_expected.textContent = "Expected Output: " + testcase.expected;
