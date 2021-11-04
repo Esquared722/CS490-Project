@@ -19,12 +19,14 @@ function load_questions() {
 function list_questions(questions_json) {
 	for(var i = 0; i < questions_json.length; i++) {
 		var question = questions_json[i],
+			card_div = document.createElement('div'),
 			question_div = document.createElement('div'),
 			title = document.createElement('h2'),
 			prompt = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
-		question_div.className = "card";
+		card_div.className = "card";
+		question_div.className = "card-body";
 		title.textContent = "Title: " + question.title;
 		question_div.appendChild(title);
 		prompt.textContent = "Prompt: " + question.prompt;
