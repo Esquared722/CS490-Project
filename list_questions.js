@@ -28,19 +28,26 @@ function list_questions(questions_json) {
 		card_div.className = "card";
 		question_div.className = "card-body";
 		title.textContent = "Title: " + question.title;
+		title.className = "card-title";
 		question_div.appendChild(title);
 		prompt.textContent = "Prompt: " + question.prompt;
+		prompt.className = "card-text";
 		question_div.appendChild(prompt);
 		testcase_header.textContent = "Testcase(s): ";
+		testcase_header.className = "card-title";
 		question_div.appendChild(testcase_header);
+		testcase_list.className = "list-group list-group-flush";
 		for (var j = 0; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
 				tc_input = document.createElement('p'),
 				tc_expected = document.createElement('p'),
 				testcase = question.testcases[j];
+			testcase_li.className = "list-group-item";
 			tc_input.textContent = "Input:\n" + testcase.test;
+			tc_input.className = "card-text";
 			testcase_li.appendChild(tc_input);
 			tc_expected.textContent = "Expected Output: " + testcase.expected;
+			tc_expected.className = "card-text";
 			testcase_li.appendChild(tc_expected);
 			testcase_list.appendChild(testcase_li);
 		}
