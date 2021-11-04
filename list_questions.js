@@ -53,7 +53,7 @@ function list_questions(questions_json) {
 			testcase_list.appendChild(testcase_li);
 		}
 		card_div.appendChild(question_div);
-		card_div.appendChild(testcase_list);
+		//card_div.appendChild(testcase_list);
 		div.appendChild(card_div);
 	}
 }
