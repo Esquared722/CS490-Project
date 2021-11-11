@@ -32,6 +32,7 @@ function list_questions(questions_json) {
 		body_div.className = "panel-body";
 		title.textContent = "Title: " + question.title;
 		head_div.appendChild(title);
+		card_div.appendChild(head_div);
 		prompt.textContent = "Prompt: " + question.prompt;
 		body_div.appendChild(prompt);
 		testcase_header.textContent = "Testcase(s): ";
