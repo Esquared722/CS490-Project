@@ -50,8 +50,44 @@
 			</ul>
 		  </div>
 		</nav>
+
 		<div class="container col-sm-4">
-			<h1>Question Bank</h1>
+			<div class="container">
+				<h1>Question Bank</h1>
+
+				<div class="col-sm-2">
+					<label class="control-label col-sm-1" for="topic-list">Topic:</label>
+					<select class="form-control" id='topic-list'>
+						<option>General		</option>
+						<option>For			</option>
+						<option>Math		</option>
+						<option>While		</option>
+						<option>Boolean		</option>
+						<option>Strings		</option>
+						<option>Recursion	</option>
+					</select>
+				</div>
+
+				<div class="col-sm-2">
+					<label class="control-label col-sm-1" for="difficulty-list">Difficulty:</label>
+					<select class="form-control" id='difficulty-list'>
+						<option>Easy		</option>
+						<option>Medium		</option>
+						<option>Hard		</option>
+					</select>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="container">
+				<div class="text-right col-sm-4">
+					<input type="button" class="btn btn-info" value= "Submit" onclick="" />
+				</div>
+			</div>
+
+			<br>
+
 			<div class="container" id='question_list'>
 				<div class="panel panel-default" style="width: 36rem;">
 					<div class="panel-heading">
@@ -69,6 +105,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="col-sm-8">
 			<form method="POST" class="form-horizontal" action="insert_question.php" id="question_form">
 				<div class="form-group">
