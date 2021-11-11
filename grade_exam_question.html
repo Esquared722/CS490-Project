@@ -6,7 +6,7 @@
 			<script src="gen_funcs.js"></script>
 		<script>
 			window.onload = () => {
-			check_session(undefined, "admin");
+			//check_session(undefined, "admin");
 			get_exam_answer();
 	};
 	</script>
@@ -16,22 +16,30 @@
 		<form method="POST" action="insert_instructor_question_grade.php">
 			<h2 id="q_title">Question: </h2>
 			<h3 id="student_name">Student: </h2>
-			<h3>Grade: (<input autocomplete="off" type="number" style="width:4em" id="grade" name="grade"/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' disabled/>)</h3>
+			<h3>Grade: (<input autocomplete="off" type="number" style="width:4em" id="grade" name="grade" disabled/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' disabled/>)</h3>
 			<table id='exam_submission'>
 				<tr>
 						<th>Answer:</th>
-						<th>TestCase Results:</th>
+						<th>Results:</th>
 				</tr>
 				<tr>
 					<td>
 						<pre id='answer'></pre>
 					</td>
 					<td>
+						<table border="1" id="constraint">
+							<tr>
+								<th>Constraint</th>
+								<th>Result</th>
+							</tr>
+						</table>
+						<br />
 						<table border="1" id="tcs_results">
 							<tr>
 								<th>Expected</th>
 								<th>Run</th>
 								<th>Result</th>
+								<th>Pts Earned</th>
 							</tr>	
 						</table>
 					</td>			  

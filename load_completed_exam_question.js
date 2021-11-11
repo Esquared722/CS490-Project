@@ -31,8 +31,8 @@ function list_exam_submission(eq_json) {
 	document.getElementById('answer').textContent = eq_json.answer;
 	document.getElementById('comment').value = eq_json.comments;
 	var tcs_table = document.getElementById('tcs_results');
-	for (var i = 0; eq_json.testcases.length; i++) {
-		var tc_expected = document.createElement('td'), tc_run = document.createElement('td'), tc_result = document.createElement('td');
+	for (var i = 0; i < eq_json.testcases.length; i++) {
+		var tc_expected = document.createElement('td'), tc_run = document.createElement('td'), tc_result = document.createElement('td'), tc_pts_earned = document.createElement('td');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
 		tc_expected.textContent = tc.input + ' → ' + tc.expected;
