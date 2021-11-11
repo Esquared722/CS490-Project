@@ -20,23 +20,23 @@ function list_questions(questions_json) {
 	for(var i = 0; i < questions_json.length; i++) {
 		var question = questions_json[i],
 			card_div = document.createElement('div'),
-			question_div = document.createElement('div'),
+			head_div = document.createElement('div'),
+			body_div = document.createElement('div'),
 			title = document.createElement('h2'),
 			prompt = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
-		card_div.className = "card";
+		card_div.className = "panel panel-default";
 		card_div.style.width = "36rem"
-		question_div.className = "card-body";
+		head_div.className = "panel-heading";
+		body_div.className = "panel-body";
 		title.textContent = "Title: " + question.title;
-		title.className = "card-title";
-		question_div.appendChild(title);
+		head_div.appendChild(title);
 		prompt.textContent = "Prompt: " + question.prompt;
-		prompt.className = "card-text";
-		question_div.appendChild(prompt);
+		body_div.appendChild(prompt);
 		testcase_header.textContent = "Testcase(s): ";
 		testcase_header.className = "card-title";
-		question_div.appendChild(testcase_header);
+		body_div.appendChild(testcase_header);
 		testcase_list.className = "list-group list-group-flush";
 		for (var j = 0; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
@@ -52,8 +52,8 @@ function list_questions(questions_json) {
 			testcase_li.appendChild(tc_expected);
 			testcase_list.appendChild(testcase_li);
 		}
-		card_div.appendChild(question_div);
-		//card_div.appendChild(testcase_list);
+		body_div.appendChild(testcase_list);
+		card_div.appendChild(body_div);
 		div.appendChild(card_div);
 	}
 }
