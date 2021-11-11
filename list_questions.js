@@ -19,30 +19,40 @@ function load_questions() {
 function list_questions(questions_json) {
 	for(var i = 0; i < questions_json.length; i++) {
 		var question = questions_json[i],
-			question_div = document.createElement('div'),
+			card_div = document.createElement('div'),
+			head_div = document.createElement('div'),
+			body_div = document.createElement('div'),
 			title = document.createElement('h2'),
 			prompt = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
-			title.textContent = "Title: " + question.title;
-		question_div.appendChild(title);
+		card_div.className = "panel panel-default";
+		card_div.style.width = "36rem"
+		head_div.className = "panel-heading";
+		body_div.className = "panel-body";
+		title.textContent = "Title: " + question.title;
+		head_div.appendChild(title);
+		card_div.appendChild(head_div);
 		prompt.textContent = "Prompt: " + question.prompt;
-		question_div.appendChild(prompt);
+		body_div.appendChild(prompt);
 		testcase_header.textContent = "Testcase(s): ";
-		question_div.appendChild(testcase_header);
+		body_div.appendChild(testcase_header);
+		//testcase_list.className = "list-group list-group-flush";
 		for (var j = 0; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
-			tc_input = document.createElement('p'),
-			tc_expected = document.createElement('p'),
-			testcase = question.testcases[j];
+				tc_input = document.createElement('p'),
+				tc_expected = document.createElement('p'),
+				testcase = question.testcases[j];
+			//testcase_li.className = "list-group-item";
 			tc_input.textContent = "Input:\n" + testcase.test;
 			testcase_li.appendChild(tc_input);
 			tc_expected.textContent = "Expected Output: " + testcase.expected;
 			testcase_li.appendChild(tc_expected);
 			testcase_list.appendChild(testcase_li);
 		}
-		question_div.appendChild(testcase_list);
-		div.appendChild(question_div);
+		body_div.appendChild(testcase_list);
+		card_div.appendChild(body_div);
+		div.appendChild(card_div);
 	}
 }
 

@@ -39,8 +39,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$tcid = $row["TCID"];
 	$test = $row["test"];
 	$expected = $row["expected"];
-	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid");
-	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid]);
+	$qstmt = getDB()->prepare("SELECT Output, Result FROM QTCS where QID = :qid AND UID = :uid AND TCID = :tcid AND EID = :eid");
+	$qstmt->execute([":qid" => $qid, ":uid" => $uid, ":tcid" => $tcid, ":eid" => $eid]);
 	$qrow = $qstmt->fetch();
 	$output = $qrow["Output"];
 	$result = $qrow["Result"];
