@@ -74,14 +74,12 @@ function load_questions() {
 }
 
 function filter_question_list(q_list) {
-    let category = '',
-    difficulty = 'medium', // document.getElementById('difficulty')
-    constraint = '';
+    let category = document.getElementById('topic-list').value,
+    difficulty = document.getElementById('difficulty-list').value;
 
     const filtered_arr = q_list.filter((question) => {
-        if((!category || question.category === category) &&
-            (!difficulty || question.difficulty === difficulty) &&
-            (!constraint || question.constraint === constraint))
+        if((!category || question.category.toLowerCase() === category.toLowerCase()) &&
+            (!difficulty || question.difficulty.toLowerCase() === difficulty.toLowerCase()))
             return question;
     });
 
@@ -92,7 +90,10 @@ function list_questions(question_list) {
     // List Questions with a given question_list (called on page load and filters)
     // Deletes div children for each listing
     let question_list_div = document.getElementById('question_list');
-    //question_list_div.childNodes.forEach(child => question_list_div.removeChild(child));
+    while (question_list_div.firstChild) {
+	    question_list_div.removeChild(question_list_div.firstChild);
+    }
+   // question_list_div.childNodes.forEach(child => question_list_div.removeChild(child));
     filter_question_list(test_q_list).forEach(question_object => question_list_div.appendChild(
         create_question_div(question_object)
         )
