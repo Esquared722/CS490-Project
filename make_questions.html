@@ -55,36 +55,38 @@
 			<div class="container">
 				<h1>Question Bank</h1>
 
-				<div class="col-sm-2">
-					<label class="control-label col-sm-1" for="topic-list">Topic:</label>
-					<select class="form-control" id='topic-list'>
-						<option>General		</option>
-						<option>For			</option>
-						<option>Math		</option>
-						<option>While		</option>
-						<option>Boolean		</option>
-						<option>Strings		</option>
-						<option>Recursion	</option>
-					</select>
+				<form method="POST" class="form-horizontal" action="" id="question_list_form">
+					<div class="col-sm-2">
+						<label class="control-label col-sm-1" for="topic-list">Topic:</label>
+						<select class="form-control" id='topic-list'>
+							<option>General		</option>
+							<option>For			</option>
+							<option>Math		</option>
+							<option>While		</option>
+							<option>Boolean		</option>
+							<option>Strings		</option>
+							<option>Recursion	</option>
+						</select>
+					</div>
+
+					<div class="col-sm-2">
+						<label class="control-label col-sm-1" for="difficulty-list">Difficulty:</label>
+						<select class="form-control" id='difficulty-list'>
+							<option>Easy		</option>
+							<option>Medium		</option>
+							<option>Hard		</option>
+						</select>
+					</div>
 				</div>
 
-				<div class="col-sm-2">
-					<label class="control-label col-sm-1" for="difficulty-list">Difficulty:</label>
-					<select class="form-control" id='difficulty-list'>
-						<option>Easy		</option>
-						<option>Medium		</option>
-						<option>Hard		</option>
-					</select>
-				</div>
-			</div>
+				<br>
 
-			<br>
-
-			<div class="container">
-				<div class="text-right col-sm-4">
-					<input type="button" class="btn btn-info" value= "Submit" onclick="" />
+				<div class="container">
+					<div class="text-right col-sm-4">
+						<input type="submit" class="btn btn-info" id='send_filter' value="Filter"/>
+					</div>
 				</div>
-			</div>
+			</form>
 
 			<br>
 
