@@ -27,7 +27,7 @@ function list_questions(questions_json) {
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
 		card_div.className = "panel panel-default";
-		card_div.style.width = "36rem"
+		card_div.style.width = "34rem"
 		head_div.className = "panel-heading";
 		body_div.className = "panel-body";
 		title.textContent = "Title: " + question.title;
