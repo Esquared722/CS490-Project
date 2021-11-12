@@ -1,6 +1,6 @@
 function logout() {
 	// destroy session
-	window.location = "login.html"
+	window.location = "index.html"
 }
 
 function check_session(callback, role) {
@@ -13,7 +13,7 @@ function check_session(callback, role) {
 				if (typeof callback === "undefined") return
 				callback(resp_obj);
 			} else {
-				window.location = 'login.html';
+				window.location = 'index.html';
 			}
 		}
 	};

@@ -26,9 +26,14 @@ function validate() {
 	xhr.open("POST", "login.php", true);
     	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhr.onreadystatechange=(e)=>{
-	if (xhr.readyState == 4 && xhr.status == 200) {
-	    login(xhr.responseText); 
-	}
+		if (xhr.readyState === 4 && xhr.status == 200) {
+	    		login(xhr.responseText); 
+		}
+		else if(xhr.readyState === 4 && xhr.status == 500) {
+			document.getElementById('user').disabled = false;
+			document.getElementById('passwd').disabled = false;
+			document.getElementById('login_button').disabled = false;
+		}	
     	};
 	xhr.send(payload);
 }
