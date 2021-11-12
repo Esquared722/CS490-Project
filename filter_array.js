@@ -106,21 +106,27 @@ function create_question_div(question) {
         panel_head = document.createElement('div'),
         panel_body = document.createElement('div'),
         question_title = document.createElement('h2'),
+        question_attributes = document.createElement('p'),
         question_prompt = document.createElement('p'),
+        question_constraints = document.createElement('p'),
         testcase_header = document.createElement('h3'),
         testcase_list = document.createElement('ol');
 
     q_div.className = "panel panel-default";
-    q_div.style.width = '36rem';
+    q_div.style.width = '34rem';
 
     panel_head.className = "panel-heading";
     question_title.textContent = "Title: " + question.title;
+    question_attributes.innerHTML = "Topic: " + question.category + " &nbsp &nbsp &nbsp &nbsp Difficulty: " + question.difficulty;
     panel_head.appendChild(question_title);
+    panel_head.appendChild(question_attributes);
 
     panel_body.className = "panel-body";
     question_prompt.textContent = "Prompt: " + question.prompt;
+    question_constraints.textContent = "Constraint: " + question.constraint;
     testcase_header.textContent = "Testcase(s): ";
     panel_body.appendChild(question_prompt);
+    panel_body.appendChild(question_constraints);
     panel_body.appendChild(testcase_header);
     
     for (var i = 0; i < question.testcases.length; i++) {
