@@ -33,5 +33,6 @@
 		$estmt = getDB()->prepare("INSERT INTO STE (UID, EID, Completed) VALUES(:UID, :EID, :completed)");
 		$estmt->execute([":UID"=>$row["UID"], ":EID"=>$EID, ":completed"=>0]);
 	}
-	echo "<script>alert('Exam: " . $title . " Created!');window.location.replace('exams.html');</script>";
+	echo "<script>alert('Exam Created');</script>";
+	echo "<script>window.location.replace('exams.html');</script>";
 ?>

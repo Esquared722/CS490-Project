@@ -4,13 +4,16 @@
 function login(raw_data) {
 	const data = raw_data.trim();
     	if(data == 'Invalid Credentials') {
+		alert("Login Failed");
 		document.getElementById('invalid').innerHTML = 'INVALID CREDENTIALS'
 		document.getElementById('user').disabled = false;
 		document.getElementById('passwd').disabled = false;
 		document.getElementById('login_button').disabled = false;
         } else if (data == 'client') {
+		alert("Login Successful");
 		window.location = 'client.html';
         } else if (data == 'admin') {
+		alert("Login Successful");
 		window.location = 'admin.html';
 	}
 }
