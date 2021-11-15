@@ -7,22 +7,28 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src="append_testcase.js"></script>
-	<script>
-		window.onkeyup = () => {
-			var button = document.getElementById('send_question'),
-			title = document.getElementById('title').value,
-			prompt = document.getElementById('prompt').value;
-			if(title != '' &&  prompt != '') {
-				button.disabled = false;
-			} else {
-				button.disabled = true;
-			}
-		};
-	</script>
-	<script>
-		window.onload = { checksession(undefined, "admin") };
-	</script>
+		<script src="filter_array.js"></script>
+		<script src="gen_funcs.js"></script>
+		<script>
+			window.onkeyup = () => {
+				var button = document.getElementById('send_question'),
+				title = document.getElementById('title').value,
+				prompt = document.getElementById('prompt').value;
+				if(title != '' &&  prompt != '') {
+					button.disabled = false;
+				} else {
+					button.disabled = true;
+				}
+			};
+		</script>
+		<script>
+			window.onload = () => { 
+				check_session(undefined, "admin")
+				get_questions();
+			};
+		</script>
 	</head>
+
 	<body>
 		<nav class="navbar navbar-inverse">
 		  <div class="container-fluid">
@@ -50,48 +56,127 @@
 		  </div>
 		</nav>
 
-		<div class="container">
+		<div class="container col-sm-4">
+			<div class="container">
+				<h1>Question Bank</h1>
+				<div class="col-sm-2">
+					<label class="control-label col-sm-1" for="topic-list">Topic:</label>
+					<select class="form-control" id='topic-list'>
+						<option>			</option>
+						<option>General		</option>
+						<option>For			</option>
+						<option>Math		</option>
+						<option>While		</option>
+						<option>Boolean		</option>
+						<option>Strings		</option>
+						<option>Recursion	</option>
+					</select>
+				</div>
+
+				<div class="col-sm-2">
+					<label class="control-label col-sm-1" for="difficulty-list">Difficulty:</label>
+					<select class="form-control" id='difficulty-list'>
+						<option>			</option>
+						<option>Easy		</option>
+						<option>Medium		</option>
+						<option>Hard		</option>
+					</select>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="container">
+				<div class="text-right col-sm-4">
+					<input type="button" class="btn btn-info" value= "Submit" onclick="get_questions()" />
+				</div>
+			</div>
+
+			<br>
+
+			<div class="container pre-scrollable col-sm-12" id='question_list'>
+			</div>
+		</div>
+
+		<div class="container col-sm-8">
 			<form method="POST" class="form-horizontal" action="insert_question.php" id="question_form">
 				<div class="form-group">
-				  <label class="control-label col-sm-2">*Question Title:</label>
-				  <div class="col-sm-3">
-					<input type="text" class="form-control" id="title" name="title" placeholder="Ex) fun(a,b)">
-				  </div>
+					<label class="control-label col-sm-2">*Question Title:</label>
+					<div class="col-sm-3">
+						<input type="text" class="form-control" id="title" name="title" placeholder="Ex) fun(a,b)">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="topic">Topic:</label>
+					<div class="col-sm-2">
+						<select class="form-control" id='topic' name="topic">
+							<option>General		</option>
+							<option>For			</option>
+							<option>Math		</option>
+							<option>While		</option>
+							<option>Boolean		</option>
+							<option>Strings		</option>
+							<option>Recursion	</option>
+						</select>
+					</div>
+
+					<label class="control-label col-sm-2" for="difficulty">Difficulty:</label>
+					<div class="col-sm-2">
+						<select class="form-control" id='difficulty' name="difficulty">
+							<option>Easy		</option>
+							<option>Medium		</option>
+							<option>Hard		</option>
+						</select>
+					</div>
 				</div>
 
 				<div class="form-group">
-				  <label class="control-label col-sm-2">*Prompt:</label>
-				  <div class="col-sm-5">
+					<label class="control-label col-sm-2">*Prompt:</label>
+					<div class="col-sm-5">
 					<textarea class="form-control" id='prompt'  name="prompt" rows="4" cols="50" placeholder="Enter prompt here"></textarea>
-				  </div>
+					</div>
 				</div>
 
 
 				<div id="testcases">
 
 					<div class="form-group" id="tc1">
-					  <label class="control-label col-sm-2">*Testcase 1:</label><br>
-					  <label class="control-label col-sm-2">Input (func(...)):</label>
-					  <div class="col-sm-2">
+						<label class="control-label col-sm-2">*Testcase 1:</label><br>
+						<label class="control-label col-sm-2">Input (func(...)):</label>
+						<div class="col-sm-2">
 						<input type="text" class="form-control" name="test[]" placeholder="fun(1,2)">
-					  </div>
-					  <label class="control-label col-sm-2">Expected Output:</label>
-					  <div class="col-sm-2">
+						</div>
+						<label class="control-label col-sm-2">Expected Output:</label>
+						<div class="col-sm-2">
 						<input type="text" class="form-control" name="expected[]" placeholder="3">
-					  </div>
+						</div>
 					</div>
 
 				</div>	
+
+				<div class="form-group">
+				<label class="control-label col-sm-8" for="constraint">Constraint:</label>
+					<div class="col-sm-2">
+						<select class="form-control" id='constraint' name="constraint">
+							<option>None		</option>
+							<option>For			</option>
+							<option>While		</option>
+							<option>Recursion	</option>
+						</select>
+					</div>
+				</div>
+
 				<div class="text-right col-sm-2">
 					<input type="button" class="btn btn-info" value= "Add TestCase +" onclick="add_tc_entry()" />
 				</div>
 				<div class="text-right col-sm-7">
 					<input type="submit" class="btn btn-info" id='send_question' value="Add Question" disabled/>
 				</div>
-
-				
 			</form>
 			<br><br>
 			<p class="col-sm-2">* = Required</p>
 		</div>
+
 	</body>
+
+</html>

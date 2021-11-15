@@ -8,18 +8,21 @@ $stmt->execute();
 
 $questions = array();
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "testcases"=>array());
+	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "category"=>"", "difficulty"=>"", "constraint"=>"", "testcases"=>array());
 	$question["qid"] = $row["qid"];
 	$question["title"] = $row["title"];
 	$question['prompt'] = $row['prompt'];
+	$question['category'] = $row['category'];
+	$question['difficulty'] = $row['difficulty'];
+	$question['constraint'] = $row['requirement'];
 
 	// select testcases for question with $row['qid']
 	$tc_stmt = getDB()->prepare("select test, expected FROM TestCases where qid = :qid");
 	$tc_stmt->bindValue(":qid", $question["qid"]);
 	$tc_stmt->execute();
 	while($tc_row = $tc_stmt->fetch(PDO::FETCH_ASSOC)) {
-		$testcase = array("test"=>"", "expected"=>"");
-		$testcase["test"] = $tc_row['test'];
+		$testcase = array("input"=>"", "expected"=>"");
+		$testcase["input"] = $tc_row['test'];
 		$testcase["expected"] = $tc_row['expected'];
 		array_push($question["testcases"], $testcase);
 	}
