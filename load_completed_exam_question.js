@@ -53,12 +53,12 @@ function list_exam_submission(eq_json) {
 		}
 		if (i < 2) {
 			tc_run.textContent = '-';
-			tc_result.style.background = tc.result === '1' ? 'green' : 'red';
+
 		} else {
 			tc_expected.textContent = tc.input + ' → ' + tc.expected;
 			tc_run.textContent = tc.output;
-			tc_result.style.background = tc.result ? "green" : "red";
 		}
+			tc_result.style.background = tc.result ? 'green' : 'red';
 			tc_result.style.min_width = '22px';
 			tc_pts_earned_input.type = "text";
 			tc_pts_earned_input.name = "scores[]";
