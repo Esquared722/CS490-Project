@@ -117,6 +117,7 @@ function create_question_div(question) {
     add_button.type = "button";
     add_button.className = "btn btn-info";
     add_button.value = "Add";
+    add_button.id = "button_" + question.qid;
     add_button.addEventListener('click', add_question);
     q_div.appendChild(add_button);
     q_panel.className = "panel panel-default";
@@ -155,7 +156,12 @@ function create_question_div(question) {
     return q_div;
 }
 
+var q_added_count = 0;
 function add_question() {
+    document.getElementById('send_question').disabled = false;
+    q_added_count++;
+    // disable add button
+    this.disabled = true;
     let exam_q_list = document.getElementById('exam_question_list'),
 	q_div = document.createElement('div'),
 	q_form = document.createElement('div'),
@@ -165,8 +171,8 @@ function add_question() {
 	q_pts_div = document.createElement('div'),
 	q_pts_input = document.createElement('input');
     
+    q_div.id = this.parentNode.id;
     q_form.className = "row";
-
     q_button_div.className = "col-sm-2";
     q_remove_button.type = "button";
     q_remove_button.className = "btn btn-info";
@@ -180,11 +186,12 @@ function add_question() {
     q_form.appendChild(q_qid);
 
     q_pts_div.className = "col-sm-4";
-    q_pts_input.type = "text";
+    q_pts_input.type = "number";
+    q_pts_input.min = 0;
     q_pts_input.className = "form-control form-control-lg";
     q_pts_input.name = "points[]";
+    q_pts_input.required = true;
     q_pts_input.placeholder = "Enter Points Here";
-    // TODO Send QID
 
     q_pts_div.appendChild(q_pts_input);
     q_form.appendChild(q_pts_div);
@@ -194,8 +201,12 @@ function add_question() {
     exam_q_list.appendChild(q_div);
 }
 
-function remove_question() {
+
+function remove_question() { 
     let exam_q_list = document.getElementById('exam_question_list'),
 	q_div = this.parentNode.parentNode.parentNode;
+    document.getElementById('button_' + q_div.id).disabled = false;
     exam_q_list.removeChild(q_div);
+    if (--q_added_count == 0) 
+	    document.getElementById('send_question').disabled = true;
 }
