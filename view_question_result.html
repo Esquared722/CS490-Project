@@ -14,6 +14,8 @@
 	<body>
 		<h1 id="exam_title">Exam: </h1>
 		<h2 id="q_title">Question: </h2>
+		<p id="difficulty"></p>
+		<p id="category"></p>
 		<h3>Grade: (<span id="grade"></span>/<span id='total_pts' name='total_pts'></span>)</h3>
 			<table id='exam_submission'>
 				<tr>
@@ -24,20 +26,13 @@
 					<td>
 						<pre id='answer'></pre>
 					</td>
-					<td>
-						<table border="1" id="constraint">
-							<tr>
-								<th>Constraint</th>
-								<th>Result</th>
-							</tr>
-						</table>
-						<br />
 						<table border="1" id="tcs_results">
 							<tr>
 								<th>Expected</th>
 								<th>Run</th>
 								<th>Result</th>
 								<th>Points Earned</th>
+								<th>Max Points</th>
 							</tr>	
 						</table>
 					</td>			  

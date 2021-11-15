@@ -23,19 +23,43 @@ function list_exam_submission(eq_json) {
 	document.getElementById('grade').textContent = eq_json.points_earned;
 	document.getElementById('total_pts').textContent = eq_json.points_total;
 	document.getElementById('answer').textContent = eq_json.answer;
-	document.getElementById('comment').value = eq_json.comments;
+	document.getElementById('comment').value = eq_json.comments,
+	document.getElementById('difficulty').textContent = 'Difficulty: ' + eq_json.difficulty,
+	document.getElementById('category').textContent = 'Category: ' + eq_json.category;
+
 	var tcs_table = document.getElementById('tcs_results');
 	for (var i = 0; eq_json.testcases.length; i++) {
-		var tc_expected = document.createElement('td'), tc_run = document.createElement('td'), tc_result = document.createElement('td');
+		var tc_expected = document.createElement('td'), 
+			tc_run = document.createElement('td'), 
+			tc_result = document.createElement('td'), 
+			tc_pts_earned_col = document.createElement('td'),
+			tc_pts_total_col = document.createElement('td');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
-		tc_expected.textContent = tc.input + ' → ' + tc.expected;
-		tc_run.textContent = tc.output;
-		tc_result.textContent = tc.result ? "Passed" : "Failed";
+		if (i == 0) {
+			tc_expected.textContent = 'Function Name';
+		} else if (i == 1 && tc.expected.indexOf('uses restriction') !== -1 && eq_json.restriction !== 'None') {
+			tc_expected.textContent = 'Restriction: ' + eq_json.restriction;
+
+		}
+		if (i < 2) {
+			tc_run.textContent = '-';
+			tc_result.style.background = tc.result === '1' ? 'green' : 'red';
+		} else {
+			tc_expected.textContent = tc.input + ' → ' + tc.expected;
+			tc_run.textContent = tc.output;
+			tc_result.style.background = tc.result ? "green" : "red";
+		}
+			tc_result.style.min_width = '22px';
+			tc_pts_earned_col.textContent = tc.points_earned;
+			tc_pts_total_col.textContent = tc.max_points;
+
 
 		tc_row.appendChild(tc_expected);
 		tc_row.appendChild(tc_run);
 		tc_row.appendChild(tc_result);
+		tc_row.appendChild(tc_pts_earned_col);
+		tc_row.appendChild(tc_pts_total_col);
 		tcs_table.appendChild(tc_row);
 	}
 }
