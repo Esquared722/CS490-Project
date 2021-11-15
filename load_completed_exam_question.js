@@ -29,19 +29,58 @@ function list_exam_submission(eq_json) {
 	document.getElementById('grade').max = eq_json.points_total;
 	document.getElementById('total_pts').value = eq_json.points_total;
 	document.getElementById('answer').textContent = eq_json.answer;
-	document.getElementById('comment').value = eq_json.comments;
+	document.getElementById('comment').value = eq_json.comments,
+	document.getElementById('difficulty').textContent = 'Difficulty: ' + eq_json.difficulty,
+	document.getElementById('category').textContent = 'Category: ' + eq_json.category;
 	var tcs_table = document.getElementById('tcs_results');
 	for (var i = 0; i < eq_json.testcases.length; i++) {
-		var tc_expected = document.createElement('td'), tc_run = document.createElement('td'), tc_result = document.createElement('td'), tc_pts_earned = document.createElement('td');
+		var tc_expected = document.createElement('td'), 
+			tc_run = document.createElement('td'), 
+			tc_result = document.createElement('td'), 
+			tc_pts_earned_col = document.createElement('td'),
+			tc_pts_earned_input = document.createElement('input'),
+			tc_pts_total_col = document.createElement('td'),
+			tc_pts_total_input = document.createElement('input'),
+			tcid_hidden_input = document.createElement('input');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
-		tc_expected.textContent = tc.input + ' → ' + tc.expected;
-		tc_run.textContent = tc.output;
-		tc_result.textContent = tc.result ? "Passed" : "Failed";
+		if (i == 0) {
+			tc_expected.textContent = question.title;
+		} else if (i == 1 && tc_expected.indexOf('uses restriction') !== -1) {
+			tc_expected.textContent = question.restriction;
 
+		}
+		if (i < 2) {
+			tc_run.textContent = '-';
+			tc_result.style.background = tc.result === '1' ? 'green' : 'red';
+		} else {
+			tc_expected.textContent = tc.input + ' → ' + tc.expected;
+			tc_run.textContent = tc.output;
+			tc_result.style.background = tc.result ? "green" : "red";
+		}
+			tc_pts_earned_input.type = "number";
+			tc_pts_earned_input.name = "scores[]";
+			tc_pts_earned_input.style.width = "4em";
+			tc_pts_earned_input.value = tc.points_earned;
+			tc_pts_earned_input.max = tc.max_points;
+
+			tc_pts_total_input.type = "number";
+			tc_pts_total_input.value = tc.max_points;
+			tc_pts_total_input.disabled = true;
+			tc_pts_total_input.style.width = "3em";
+
+		tc_hidden_input.type = "hidden";
+		tc_hidden_input.value = tc.tcid;
+		tc_hidden_input.name = "testcases[]";
+
+		tc_pts_earned_col.appendChild(tc_pts_earned_input);
+		tc_pts_total_col.appendChild(tc_pts_total_input);
 		tc_row.appendChild(tc_expected);
 		tc_row.appendChild(tc_run);
 		tc_row.appendChild(tc_result);
+		tc_row.appendChild(tc_pts_earned_col);
+		tc_row.appendChild(tc_pts_total_col);
+		tc_row.appendChild(tc_hidden_input);
 		tcs_table.appendChild(tc_row);
 	}
 }
