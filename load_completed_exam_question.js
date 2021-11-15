@@ -59,6 +59,7 @@ function list_exam_submission(eq_json) {
 			tc_run.textContent = tc.output;
 			tc_result.style.background = tc.result ? "green" : "red";
 		}
+			tc_result.style.min_width = '22px';
 			tc_pts_earned_input.type = "text";
 			tc_pts_earned_input.name = "scores[]";
 			tc_pts_earned_input.style.width = "5em";
