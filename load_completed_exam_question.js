@@ -44,10 +44,11 @@ function list_exam_submission(eq_json) {
 			tcid_hidden_input = document.createElement('input');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
+		console.log(typeof(tc_expected));
 		if (i == 0) {
-			tc_expected.textContent = question.title;
-		} else if (i == 1 && tc_expected.indexOf('uses restriction') !== -1) {
-			tc_expected.textContent = question.restriction;
+			tc_expected.textContent = 'Function Name';
+		} else if (i == 1 && tc.expected.indexOf('uses restriction') !== -1 && eq_json.restriction !== 'None') {
+			tc_expected.textContent = 'Restriction: ' + eq_json.restriction;
 
 		}
 		if (i < 2) {
@@ -58,20 +59,20 @@ function list_exam_submission(eq_json) {
 			tc_run.textContent = tc.output;
 			tc_result.style.background = tc.result ? "green" : "red";
 		}
-			tc_pts_earned_input.type = "number";
+			tc_pts_earned_input.type = "text";
 			tc_pts_earned_input.name = "scores[]";
-			tc_pts_earned_input.style.width = "4em";
+			tc_pts_earned_input.style.width = "5em";
 			tc_pts_earned_input.value = tc.points_earned;
 			tc_pts_earned_input.max = tc.max_points;
 
-			tc_pts_total_input.type = "number";
+			tc_pts_total_input.type = "text";
 			tc_pts_total_input.value = tc.max_points;
 			tc_pts_total_input.disabled = true;
-			tc_pts_total_input.style.width = "3em";
+			tc_pts_total_input.style.width = "5em";
 
-		tc_hidden_input.type = "hidden";
-		tc_hidden_input.value = tc.tcid;
-		tc_hidden_input.name = "testcases[]";
+		tcid_hidden_input.type = "hidden";
+		tcid_hidden_input.value = tc.tcid;
+		tcid_hidden_input.name = "testcases[]";
 
 		tc_pts_earned_col.appendChild(tc_pts_earned_input);
 		tc_pts_total_col.appendChild(tc_pts_total_input);
@@ -80,7 +81,7 @@ function list_exam_submission(eq_json) {
 		tc_row.appendChild(tc_result);
 		tc_row.appendChild(tc_pts_earned_col);
 		tc_row.appendChild(tc_pts_total_col);
-		tc_row.appendChild(tc_hidden_input);
+		tc_row.appendChild(tcid_hidden_input);
 		tcs_table.appendChild(tc_row);
 	}
 }
