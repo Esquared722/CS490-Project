@@ -22,7 +22,9 @@ function list_questions(questions_json) {
 			head_div = document.createElement('div'),
 			body_div = document.createElement('div'),
 			title = document.createElement('h2'),
+			attributes = document.createElement('p'),
 			prompt = document.createElement('p'),
+			question_constraints = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
 		card_div.className = "panel panel-default";
@@ -30,20 +32,22 @@ function list_questions(questions_json) {
 		head_div.className = "panel-heading";
 		body_div.className = "panel-body";
 		title.textContent = "Title: " + question.title;
+		attributes.innerHTML = "Topic: " + question.category + " &nbsp &nbsp &nbsp &nbsp Difficulty: " + question.difficulty; 
 		head_div.appendChild(title);
+		head_div.appendChild(attributes);
 		card_div.appendChild(head_div);
 		prompt.textContent = "Prompt: " + question.prompt;
+		question_constraints.textContent = "Constraint: " + question.constraint;
 		body_div.appendChild(prompt);
+		body_div.appendChild(question_constraints);
 		testcase_header.textContent = "Testcase(s): ";
 		body_div.appendChild(testcase_header);
-		//testcase_list.className = "list-group list-group-flush";
 		for (var j = 0; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
 				tc_input = document.createElement('p'),
 				tc_expected = document.createElement('p'),
 				testcase = question.testcases[j];
-			//testcase_li.className = "list-group-item";
-			tc_input.textContent = "Input:\n" + testcase.test;
+			tc_input.textContent = "Input:\n" + testcase.input;
 			testcase_li.appendChild(tc_input);
 			tc_expected.textContent = "Expected Output: " + testcase.expected;
 			testcase_li.appendChild(tc_expected);

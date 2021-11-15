@@ -68,8 +68,7 @@ function get_questions() {
 // loads_questions from DB as JSON
 function load_questions() {
 	if(re.readyState == 4) {
-		//list_questions(JSON.parse(re.responseText));
-		list_questions();
+		list_questions(JSON.parse(re.responseText));
 	}
 }
 
@@ -94,7 +93,7 @@ function list_questions(question_list) {
     while (question_list_div.firstChild) {
 	    question_list_div.removeChild(question_list_div.firstChild);
     }
-    filter_question_list(test_q_list).forEach(question_object => question_list_div.appendChild(
+    filter_question_list(question_list).forEach(question_object => question_list_div.appendChild(
         create_question_div(question_object)
         )
     );

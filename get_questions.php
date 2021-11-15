@@ -2,23 +2,23 @@
 session_start();
 require(__DIR__."/dbconnection.php");
 $uid = $_SESSION['uid'];
-$stmt = getDB()->prepare("select qid, title, prompt FROM Questions where uid = :uid");
+$stmt = getDB()->prepare("select * FROM Questions where uid = :uid");
 $stmt->bindValue(":uid", $uid);
 $stmt->execute();
 
 $questions = array();
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "category"=>"", "difficulty"=>"", "constraint"=>"", "testcases"=>array());
-	$question["qid"] = $row["qid"];
+	$question["qid"] = $row["QID"];
 	$question["title"] = $row["title"];
 	$question['prompt'] = $row['prompt'];
 	$question['category'] = $row['category'];
 	$question['difficulty'] = $row['difficulty'];
-	$question['constraint'] = $row['requirement'];
+	$question['constraint'] = $row['restriction'];
 
 	// select testcases for question with $row['qid']
-	$tc_stmt = getDB()->prepare("select test, expected FROM TestCases where qid = :qid");
-	$tc_stmt->bindValue(":qid", $question["qid"]);
+	$tc_stmt = getDB()->prepare("select test, expected FROM TestCases where qid = :qid LIMIT 2,100");
+	$tc_stmt->bindValue(":qid", $row["QID"]);
 	$tc_stmt->execute();
 	while($tc_row = $tc_stmt->fetch(PDO::FETCH_ASSOC)) {
 		$testcase = array("input"=>"", "expected"=>"");
