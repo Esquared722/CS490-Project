@@ -3,8 +3,8 @@ var re = new XMLHttpRequest();
 
 // Send Request
 function get_questions() {
-	//list_questions(test_json);
-	document.getElementById('student_name').textContent = urlParams.get('name');
+	document.getElementById('exam_title').textContent = "Exam: " + urlParams.get('title');
+	document.getElementById('student_name').textContent = "Student: " +  urlParams.get('name');
 	re.onreadystatechange = load_questions;
 	re.open("GET", "get_exam_student_questions.php?eid=" + urlParams.get('eid') + "&uid=" + urlParams.get('uid'), true);
 	re.send();
@@ -20,7 +20,6 @@ function load_questions() {
 	list_questions(JSON.parse(re.responseText));
 }
 
-//var test_json = [{qid: 1, title: "Test Q1", pts_earned: 10, pts_total: 10}, {qid: 2, title: "Test Q2", pts_earned: 5, pts_total: 10}];
 // List Questions
 function list_questions(questions_json) {
 	var table = document.getElementById('question_grade_table');

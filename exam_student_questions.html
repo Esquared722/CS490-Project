@@ -1,9 +1,14 @@
 <html>
 	<head>
 		<title>Questions</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src='gen_funcs.js'></script>
 		<script src='list_question_form_links.js'></script>
 		<script src='grade_calc.js'></script>
+		<meta charset="utf-8"/>
 	<script>
 		window.onload = () => {
 			check_session(undefined, "admin");
@@ -12,15 +17,21 @@
 	</script>
 	</head>
 	<body>
-		<h1 id='student_name'></h1>
+		<h1 id="exam_title"></h1>
+		<h3 id='student_name'></h3>
 		<hr />
 		<table id='question_grade_table'>
+			<tr>
+				<th></th>
+				<th>Question</th>
+				<th>Score</th>
+			</tr>
 		</table>
 		<br />
 		<br />
-		<span id='total_grade'></span>
+		<span id='total_grade'>Total Exam Score: </span>
 		<br />
 		<br />
-		<button type="button" id="back_button">Save Grades</button>
+		<button type="button" class="btn btn-info" id="back_button">Save Grades</button>
 	</body>
 </html>

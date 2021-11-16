@@ -1,8 +1,13 @@
 <html>
 	<head>
 		<title>Exam Results</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script src="gen_funcs.js"></script>
 		<script src="list_exam_students.js"></script>
+		<meta charset='utf-8' />
 	<script>
 		window.onload = () => {
 			const urlParams = new URLSearchParams(window.location.search);
@@ -22,18 +27,19 @@
 				<tr>
 					<th></th>
 					<th>Student(s)</th>
+					<th>Completed</th>
 					<th>Exam Grade(s)</th>
 				</tr>
 			</table>
 		</div>
 		<hr />
 		<br />
-		<button id="auto_grade_button" type="button">Auto Grade</button>
+		<button id="auto_grade_button" class="btn btn-info" type="button">Auto Grade</button>
 		<br />
 		<br />
-		<button id="release_button" type="button">Release Grades</button>
+		<button id="release_button" class="btn btn-info" type="button">Release Grades</button>
 		<br />
 		<br />
-		<button id="back_button" type="button">Back to Exam List</button>
+		<button id="back_button" class="btn btn-info" type="button">Back to Exam List</button>
 	</body>
 </html>
