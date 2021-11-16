@@ -1,6 +1,6 @@
 function logout() {
 	// destroy session
-	window.location = "index.html"
+	window.location = "session_destroy.php";
 }
 
 function check_session(callback, role) {

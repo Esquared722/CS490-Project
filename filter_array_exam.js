@@ -1,63 +1,3 @@
-var test_q_list = [
-    {
-        "qid": 1,
-        "title": "sum(a, b, c)",
-        "prompt": "Calculate the sum of three numbers, a, b, and c",
-        "category": "Math",
-        "difficulty": "medium",
-        "constraint": "none",
-        "total_pts": "20",
-        "testcases":[
-            {
-                "input": "sum(1, 2, 3)",
-                "expected": "6"
-            },
-            {
-                "input": "sum(-1, -3, 4)",
-                "expected": "0"
-            }
-        ]
-    },
-    {
-        "qid": 2,
-        "title": "factorial(n)",
-        "prompt": "Calculate the nth factorial",
-        "category": "recursion",
-        "difficulty": "hard",
-        "constraint": "recursion",
-        "total_pts": "20",
-        "testcases":[
-            {
-                "input": "factorial(1)",
-                "expected": "1"
-            },
-            {
-                "input": "factorial(4)",
-                "expected": "24"
-            }
-        ]
-    },
-    {
-        "qid": 3,
-        "title": "factorial(n)",
-        "prompt": "Calculate the nth factorial using a for-loop",
-        "category": "Math",
-        "difficulty": "medium",
-        "constraint": "for",
-        "total_pts": "20",
-        "testcases":[
-            {
-                "input": "factorial(1)",
-                "expected": "1"
-            },
-            {
-                "input": "factorial(4)",
-                "expected": "24"
-            }
-        ]
-    }
-];
-
 var re = new XMLHttpRequest();
 function get_questions() {
 	re.onreadystatechange = load_questions;
@@ -68,8 +8,8 @@ function get_questions() {
 // loads_questions from DB as JSON
 function load_questions() {
 	if(re.readyState == 4) {
-		//list_questions(JSON.parse(re.responseText));
-		list_questions();
+		list_questions(JSON.parse(re.responseText));
+		//list_questions();
 	}
 }
 
@@ -94,7 +34,7 @@ function list_questions(question_list) {
     while (question_list_div.firstChild) {
 	    question_list_div.removeChild(question_list_div.firstChild);
     }
-    filter_question_list(test_q_list).forEach(question_object => question_list_div.appendChild(
+    filter_question_list(question_list).forEach(question_object => question_list_div.appendChild(
         create_question_div(question_object)
         )
     );
@@ -131,13 +71,13 @@ function create_question_div(question) {
 
     panel_body.className = "panel-body";
     question_prompt.textContent = "Prompt: " + question.prompt;
-    question_constraints.textContent = "Constraint: " + question.constraint;
+    question_constraints.textContent = "Constraint: " + question.restriction;
     testcase_header.textContent = "Testcase(s): ";
     panel_body.appendChild(question_prompt);
     panel_body.appendChild(question_constraints);
     panel_body.appendChild(testcase_header);
     
-    for (var i = 0; i < question.testcases.length; i++) {
+    for (var i = 2; i < question.testcases.length; i++) {
         let testcase_li = document.createElement('li'),
             testcase_input = document.createElement('p'),
             testcase_expected = document.createElement('p'),
