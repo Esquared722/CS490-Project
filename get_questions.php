@@ -18,7 +18,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 	// select testcases for question with $row['qid']
 	$tc_stmt = getDB()->prepare("select test, expected FROM TestCases where qid = :qid LIMIT 2,100");
-	$tc_stmt->bindValue(":qid", $row["QID"]);
+	$tc_stmt->bindValue(":qid", $row["qid"]);
 	$tc_stmt->execute();
 	while($tc_row = $tc_stmt->fetch(PDO::FETCH_ASSOC)) {
 		$testcase = array("input"=>"", "expected"=>"");
