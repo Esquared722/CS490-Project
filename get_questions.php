@@ -2,19 +2,19 @@
 session_start();
 require(__DIR__."/dbconnection.php");
 $uid = $_SESSION['uid'];
-$stmt = getDB()->prepare("select * FROM Questions where uid = :uid");
+$stmt = getDB()->prepare("select qid, title, prompt, category, difficulty, restriction FROM Questions where uid = :uid");
 $stmt->bindValue(":uid", $uid);
 $stmt->execute();
 
 $questions = array();
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "category"=>"", "difficulty"=>"", "constraint"=>"", "testcases"=>array());
-	$question["qid"] = $row["QID"];
+	$question = array("qid"=>"", "title"=>"", "prompt"=>"", "category"=>"", "difficulty"=>"", "restriction"=>"", "testcases"=>array());
+	$question["qid"] = $row["qid"];
 	$question["title"] = $row["title"];
 	$question['prompt'] = $row['prompt'];
 	$question['category'] = $row['category'];
 	$question['difficulty'] = $row['difficulty'];
-	$question['constraint'] = $row['restriction'];
+	$question['restriction'] = $row['restriction'];
 
 	// select testcases for question with $row['qid']
 	$tc_stmt = getDB()->prepare("select test, expected FROM TestCases where qid = :qid LIMIT 2,100");

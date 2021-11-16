@@ -6,9 +6,9 @@
 	$prompt = $_POST["prompt"];
 	$testCaseList = $_POST["test"];
 	$expectedList = $_POST["expected"];
-	$category = $_POST["category"];
+	$category = $_POST["topic"];
 	$difficulty = $_POST["difficulty"];
-	$restriction = $_POST["restriction"];	
+	$restriction = $_POST["constraint"];	
 
 	//Insert into Questions table
 	$stmt = getDB()->prepare("INSERT INTO Questions (title, prompt, UID, category, difficulty, restriction) VALUES(:title, :prompt, :uid, :category, :difficulty, :restriction)");

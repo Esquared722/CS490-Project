@@ -15,13 +15,16 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$qstmt = getDB()->prepare("SELECT QID, Points FROM EQ WHERE EID = :eid");
 	$qstmt->execute([":eid" => $eid]);
 	$totalExamPoints = 0;
+	$totalQuestionPointsEarned = 0;
 	while($qrow = $qstmt->fetch(PDO::FETCH_ASSOC)){
 		//loop through questions and check each test case
 		$qid = $qrow["QID"];
 		$totalExamPoints += $qrow["Points"];
-		$astmt = getDB()->prepare("SELECT restriction FROM Questions WHERE QID = :qid");
+		$astmt = getDB()->prepare("SELECT title, restriction FROM Questions WHERE QID = :qid");
 		$astmt->execute([":qid" => $qid]);
-		$restriction = $astmt->fetch()["restriction"];
+		$q = $astmt->fetch();
+		$title = $q["title"];
+		$restriction = $q["restriction"];
 		$astmt = getDB()->prepare("SELECT Answer FROM Answers WHERE UID = :uid AND QID = :qid AND EID = :eid");
 		$astmt->execute([":uid" => $uid, ":qid" => $qid, ":eid" => $eid]);
 		$answer = $astmt->fetch()["Answer"];
@@ -49,29 +52,30 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		
 		while($trow = $tstmt->fetch(PDO::FETCH_ASSOC)) {
 			$pointsEarned = 0;
-			$maxPoints = (1/$numTC) * $testCaseGrade * $totalPoints;
 			$test = $trow["test"];
 			//check for function name
 			$lines = explode("\n", $answer);
 			if($test == "uses correct function name") {
 				$output = "Correct Function Name";
+				$maxPoints = $functionNameGrade * $qrow["Points"];
 				foreach($lines as $line) {
 					$lineWords = explode(" ", $line);
 					if($lineWords[0] == "def") {
-						$correctName = substr($test, 0, strpos("("));
-						$userFunctionName = substr($lineWords[1], 0, strpos("("));
-						if($lineWords[1] == $correctName) {
+						$correctName = substr($title, 0, strpos($title, "("));
+						$userFunctionName = substr($lineWords[1], 0, strpos($lineWords[1], "("));
+						if($userFunctionName == $correctName) {
 							$functionNameCorrect = 1;
 							$result = 1;
 							$pointsEarned = $maxPoints;
+							break;
 						} else {
-							str_replace(" ".$userFunctionName."(", " ".$correctName."(", $answer);
+							$answer = str_replace(" ".$userFunctionName."(", " ".$correctName."(", $answer);
 							$result = 0;
 						}
 					}
 				}
 			} else if($test == "uses restriction") {
-				
+				$maxPoints = $restrictGrade * $qrow["Points"];
 				$restrictionFound = 0;
 				$result = 0;
 				$output = "Restriction Applied";
@@ -94,9 +98,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						}
 					}
 				}
-			} else {
-						
-				$numCases += 1;
+			} else {		
+				$maxPoints = (1/$numTC) * $testCaseGrade * $qrow["Points"];
 				$fileName = $_SERVER["DOCUMENT_ROOT"]."/$uid$eid$qid.test.py";
 				$myfile = fopen($fileName, "a") or die ("Cant open");
 				fwrite($myfile, $answer);
@@ -109,7 +112,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$result = 0;
 				if($output === $trow["expected"]) {
 					$result = 1;
-					$pointEarned = $maxPoints;
+					$pointsEarned = $maxPoints;
 				}
 			}
 			$tcstmt = getDB()->prepare("REPLACE INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints)");
@@ -121,10 +124,10 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$pstmt = getDB()->prepare("SELECT SUM(Points) as totalPointsEarned, SUM(Max_Points) as totalPoints FROM QTCS WHERE QID = :qid AND EID = :eid AND UID = :uid");
 		$pstmt->execute([":qid"=>$qid, ":eid"=>$eid, ":uid"=>$uid]);
 		$answerPoints = $pstmt->fetch();
-		$questionPointsEarned = ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$totalPoints;
+		$questionPointsEarned = ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$qrow["Points"];
 		$totalQuestionPointsEarned += $questionPointsEarned;
 		$pstmt = getDB()->prepare("UPDATE Answers SET Points_Earned = :points_earned WHERE QID = :qid AND EID = :eid AND UID = :uid");
-		$pstmt->execute([":points_earned" => ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$totalPoints, ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
+		$pstmt->execute([":points_earned" => ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$qrow["Points"], ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
 	}
 	$finalGrade = ($totalQuestionPointsEarned/$totalExamPoints) * 100;
 	$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
