@@ -43,7 +43,6 @@ function list_exam_submission(eq_json) {
 			tcid_hidden_input = document.createElement('input');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
-<<<<<<< HEAD
 		var restriction = false;
 		console.log(typeof(tc_expected));
 		if (i == 0) {

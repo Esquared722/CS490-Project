@@ -68,7 +68,7 @@ function create_question_div(question) {
     panel_body.appendChild(question_constraints);
     panel_body.appendChild(testcase_header);
     
-    for (var i = 0; i < question.testcases.length; i++) {
+    for (var i = question.restriction == "None" ? 1 : 2; i < question.testcases.length; i++) {
         let testcase_li = document.createElement('li'),
             testcase_input = document.createElement('p'),
             testcase_expected = document.createElement('p'),

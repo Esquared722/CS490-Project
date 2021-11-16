@@ -6,9 +6,9 @@
 	$prompt = $_POST["prompt"];
 	$testCaseList = $_POST["test"];
 	$expectedList = $_POST["expected"];
-	$category = $_POST["topic"];
+	$category = $_POST["category"];
 	$difficulty = $_POST["difficulty"];
-	$restriction = $_POST["constraint"];	
+	$restriction = $_POST["restriction"];	
 
 	//Insert into Questions table
 	$stmt = getDB()->prepare("INSERT INTO Questions (title, prompt, UID, category, difficulty, restriction) VALUES(:title, :prompt, :uid, :category, :difficulty, :restriction)");
@@ -23,7 +23,7 @@
 	$stmt->execute([":QID"=>$qid, ":test"=>"uses correct function name", ":expected"=>"uses correct function name"]);
 
 	//add test for restriction if not none
-	if($restriction != "none") {
+	if($restriction != "None") {
 		$stmt = getDB()->prepare("INSERT INTO TestCases (QID, test, expected) VALUES(:QID, :test, :expected)");
 		$stmt->execute([":QID"=>$qid, ":test"=>"uses restriction", ":expected"=>"uses restriction"]);
 	}
