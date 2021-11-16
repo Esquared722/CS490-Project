@@ -108,7 +108,7 @@ function create_question_div(question) {
         panel_body = document.createElement('div'),
         question_title = document.createElement('h2'),
         question_attributes = document.createElement('p'),
-        question_prompt = document.createElement('p'),
+        question_prompt = document.createElement('pre'),
         question_constraints = document.createElement('p'),
         testcase_header = document.createElement('h3'),
         testcase_list = document.createElement('ol');

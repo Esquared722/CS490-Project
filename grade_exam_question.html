@@ -15,10 +15,9 @@
 		<h1 id="exam_title">Exam: </h1>
 		<form method="POST" action="insert_instructor_question_grade.php">
 			<h2 id="q_title">Question: </h2>
+			<p id="attributes"></p>
 			<h3 id="student_name">Student: </h2>
-			<p id="difficulty"></p>
-			<p id="category"></p>
-			<h3>Grade: (<input autocomplete="off" type="number" style="width:4em" id="grade" name="grade" disabled/>/<input type="number" style="width:3em" id='total_pts' name='total_pts' disabled/>)</h3>
+			<h3>Grade: (<span style="width:5em" id="grade"></span>/<span style="width:4em" id='total_pts'></span>)</h3>
 			<table id='exam_submission'>
 				<tr>
 						<th>Answer:</th>
@@ -26,7 +25,7 @@
 				</tr>
 				<tr>
 					<td>
-						<pre id='answer'></pre>
+						<code id='answer'></code>
 					</td>
 					<td>
 						<table border="1" id="tcs_results">

@@ -106,7 +106,7 @@ function create_question_div(question) {
         panel_body = document.createElement('div'),
         question_title = document.createElement('h2'),
         question_attributes = document.createElement('p'),
-        question_prompt = document.createElement('p'),
+        question_prompt = document.createElement('pre'),
         question_constraints = document.createElement('p'),
         testcase_header = document.createElement('h3'),
         testcase_list = document.createElement('ol');
@@ -121,7 +121,7 @@ function create_question_div(question) {
     panel_head.appendChild(question_attributes);
 
     panel_body.className = "panel-body";
-    question_prompt.textContent = "Prompt: " + question.prompt;
+    question_prompt.textContent = question.prompt;
     question_constraints.textContent = "Constraint: " + question.constraint;
     testcase_header.textContent = "Testcase(s): ";
     panel_body.appendChild(question_prompt);

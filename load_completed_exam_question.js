@@ -25,13 +25,12 @@ function list_exam_submission(eq_json) {
 	document.getElementById('exam_title').textContent += urlParams.get('title');
 	document.getElementById('q_title').textContent += eq_json.title;
 	document.getElementById('student_name').textContent += eq_json.name;
-	document.getElementById('grade').value = eq_json.points_earned;
-	document.getElementById('grade').max = eq_json.points_total;
-	document.getElementById('total_pts').value = eq_json.points_total;
+	document.getElementById('grade').textContent = eq_json.points_earned;
+	document.getElementById('total_pts').textContent = eq_json.points_total;
 	document.getElementById('answer').textContent = eq_json.answer;
 	document.getElementById('comment').value = eq_json.comments,
-	document.getElementById('difficulty').textContent = 'Difficulty: ' + eq_json.difficulty,
-	document.getElementById('category').textContent = 'Category: ' + eq_json.category;
+	document.getElementById('attributes').innerHTML = 'Difficulty: ' + eq_json.difficulty + " &nbsp &nbsp &nbsp &nbsp Category: " + eq_json.category;
+
 	var tcs_table = document.getElementById('tcs_results');
 	for (var i = 0; i < eq_json.testcases.length; i++) {
 		var tc_expected = document.createElement('td'), 
@@ -44,22 +43,23 @@ function list_exam_submission(eq_json) {
 			tcid_hidden_input = document.createElement('input');
 		var tc_row = document.createElement('tr');
 		const tc = eq_json.testcases[i];
+		var restriction = false;
 		console.log(typeof(tc_expected));
 		if (i == 0) {
 			tc_expected.textContent = 'Function Name';
 		} else if (i == 1 && tc.expected.indexOf('uses restriction') !== -1 && eq_json.restriction !== 'None') {
 			tc_expected.textContent = 'Restriction: ' + eq_json.restriction;
-
-		}
-		if (i < 2) {
+			restriction = true;
+		}	
+		if (i == 0 || (restriction && i == 1)) {
 			tc_run.textContent = '-';
 
 		} else {
 			tc_expected.textContent = tc.input + ' → ' + tc.expected;
 			tc_run.textContent = tc.output;
-		}
+		} 
 			tc_result.style.background = tc.result ? 'green' : 'red';
-			tc_result.style.min_width = '22px';
+			tc_result.style.minWidth = '22px';
 			tc_pts_earned_input.type = "text";
 			tc_pts_earned_input.name = "scores[]";
 			tc_pts_earned_input.style.width = "5em";
