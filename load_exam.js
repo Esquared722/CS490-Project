@@ -33,7 +33,7 @@ function list_exam_questions(exam_json) {
 		var question = exam_json.questions[i],
 		question_li_tree = document.createElement('li'),
 		question_title = document.createElement('h3'),
-		question_prompt = document.createElement('p'),
+		question_prompt = document.createElement('pre'),
 		question_answer = document.createElement('textarea'),
 		question_id = document.createElement('input');	
 		question_id.type = 'hidden';

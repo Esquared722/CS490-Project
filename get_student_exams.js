@@ -16,7 +16,7 @@ function list_exam_hrefs() {
 			} else if(!exam.completed) {
 				div = document.getElementById('not_completed_exams');
 			} else {
-				return;
+				continue;
 			}
 			div.appendChild((() => {
   				var exam_link = document.createElement('a');

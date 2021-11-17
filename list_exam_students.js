@@ -50,7 +50,7 @@ function list_students(students_json) {
 		student_name.textContent = student.name;
 		completion_status.innerHTML = "&#10060";
 		}
-		typeof student.grade == "Number" ? grade.appendChild(document.createTextNode(student.grade + '%')) : grade.appendChild(document.createTextNode('UNGRADED'));
+		typeof student.grade == "string" ? grade.appendChild(document.createTextNode(student.grade + '%')) : grade.appendChild(document.createTextNode('UNGRADED'));
 		table_row.appendChild(student_name);
 		table_row.appendChild(completion_status);
 		table_row.appendChild(grade);
@@ -68,7 +68,7 @@ function update_grades(grade_json) {
 	student_table = document.getElementById("students_table");
 	for (var i = 2; i < student_table.childNodes.length; i++) {
 		var tr = student_table.childNodes[i],
-			grade = tr.childNodes[2],
+			grade = tr.childNodes[3],
 			name = tr.childNodes[1].textContent;
 		grade.textContent = grade_json[name] + "%";
 	}
