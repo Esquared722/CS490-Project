@@ -16,14 +16,14 @@ for($i = 0; $i < count($tcids); $i++) {
 		continue;
 	}
 	$stmt = getDB()->prepare("UPDATE QTCS SET Points = :pointsEarned WHERE UID = :uid AND EID = :eid AND QID = :qid AND TCID = :tcid");
-	$stmt->execute([":comment" => $comment, ":pointsEarned" => $scores[$i], ":uid" => $uid, ":eid" => $eid, ":qid" => $qid, ":tcid" => $tcids[$i]]);
+	$stmt->execute([":pointsEarned" => $scores[$i], ":uid" => $uid, ":eid" => $eid, ":qid" => $qid, ":tcid" => $tcids[$i]]);
 }
 $stmt = getDB()->prepare("SELECT Points FROM EQ WHERE EID = :eid AND QID = :qid");
 $stmt->execute([":eid" => $eid, ":qid" => $qid]);
 $questionPoints = $stmt->fetch()["Points"];
 
 $stmt = getDB()->prepare("SELECT SUM(Points) as totalPointsEarned, SUM(Max_Points) as totalPoints FROM QTCS WHERE UID = :uid AND EID = :eid");
-$stmt->execute([":comment" => $comment, ":pointsEarned" => $scores[$i], ":uid" => $uid, ":eid" => $eid, ":qid" => $qid]);
+$stmt->execute([":uid" => $uid, ":eid" => $eid]);
 $row = $stmt->fetch();
 $grade = ($row["totalPointsEarned"] / $row["totalPoints"]) * $questionPoints;
 

@@ -29,6 +29,14 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$astmt->execute([":uid" => $uid, ":qid" => $qid, ":eid" => $eid]);
 		$answer = $astmt->fetch()["Answer"];
 
+		if($answer === null) {
+			$astmt = getDB()->prepare("INSERT INTO Answers(UID, EID, QID, Answer) VALUES(:uid, :eid, :qid, :answer)");
+        		$astmt->execute([":uid" => $uid, ":eid" => $eid, ":qid" => $qid, ":answer" => ""]);			
+			$answer = "";
+			$stmt = getDB()->prepare("UPDATE STE SET Completed = 1 WHERE UID = :uid AND EID = :eid");
+			$stmt->execute([":uid" => $uid, ":eid" => $eid]);	
+		}
+
 		$tstmt = getDB()->prepare("SELECT COUNT(TCID) as count FROM TestCases WHERE QID = :qid AND test <> 'uses correct function name' AND test <> 'uses restriction'");
 		$tstmt->execute([":qid" => $qid]);
 		$numTC = $tstmt->fetch()["count"];
@@ -36,7 +44,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$tstmt = getDB()->prepare("SELECT TCID, test, expected FROM TestCases WHERE QID = :qid");
 		$tstmt->execute([":qid" => $qid]);
 
-		if($restriction == "for" OR $restriction == "while" OR $restriction == "recursion"){
+		if($restriction != "None"){
 			$functionNameGrade = 0.1;
 			$functionNameCorrect = 0;
 			$restrictGrade = 0.2;
@@ -79,11 +87,11 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$restrictionFound = 0;
 				$result = 0;
 				$output = "Restriction Applied";
-				if($restriction == "for") {
+				if($restriction == "For Loop") {
 					$restrictionName = "for";
-				} else if ($restriction == "while") {
+				} else if ($restriction == "While Loop") {
 					$restrictionName = "while";
-				} else if ($restriction == "recursion") {
+				} else if ($restriction == "Recursion") {
 					$restrictionName = $substr($test, 0, strpos("("));
 				}
 				foreach($lines as $line) {
@@ -99,6 +107,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					}
 				}
 			} else {		
+				$result = 0;
 				$maxPoints = (1/$numTC) * $testCaseGrade * $qrow["Points"];
 				$fileName = $_SERVER["DOCUMENT_ROOT"]."/$uid$eid$qid.test.py";
 				$myfile = fopen($fileName, "a") or die ("Cant open");
@@ -109,13 +118,12 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				foreach($out as $val) {
 					$output = $output.$val;
 				}
-				$result = 0;
 				if($output === $trow["expected"]) {
 					$result = 1;
 					$pointsEarned = $maxPoints;
 				}
 			}
-			$tcstmt = getDB()->prepare("REPLACE INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints)");
+			$tcstmt = getDB()->prepare("INSERT INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints) ON DUPLICATE KEY UPDATE EID = :eid, QID = :qid, TCID = :tcid, UID = :uid, Output = :output, Result = :result, Points = :pointsEarned, Max_Points = :maxPoints");
 			$tcstmt->execute([":eid"=>$eid, ":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output,":result" => $result, ":pointsEarned"=>$pointsEarned, ":maxPoints"=>$maxPoints]);
 			unset($output);
 			unlink($fileName);

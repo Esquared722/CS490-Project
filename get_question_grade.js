@@ -38,18 +38,17 @@ function list_exam_submission(eq_json) {
 		const tc = eq_json.testcases[i];
 		if (i == 0) {
 			tc_expected.textContent = 'Function Name';
-		} else if (i == 1 && tc.expected.indexOf('uses restriction') !== -1 && eq_json.restriction !== 'None') {
+		} else if (i == 1 && eq_json.restriction !== 'None') {
 			tc_expected.textContent = 'Restriction: ' + eq_json.restriction;
 
 		}
-		if (i < 2) {
+		if (eq_json.restriction !== 'None' && i < 2) {
 			tc_run.textContent = '-';
-			tc_result.style.background = tc.result === '1' ? 'green' : 'red';
-		} else {
+		}else if(i > 0 && eq_json.restriction == 'None' || i > 1 && eq_json.restriction !== 'None'){
 			tc_expected.textContent = tc.input + ' → ' + tc.expected;
 			tc_run.textContent = tc.output;
-			tc_result.style.background = tc.result ? "green" : "red";
 		}
+			tc_result.style.background = tc.result ? "green" : "red";
 			tc_result.style.min_width = '22px';
 			tc_pts_earned_col.textContent = tc.points_earned;
 			tc_pts_total_col.textContent = tc.max_points;
