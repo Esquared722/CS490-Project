@@ -37,12 +37,16 @@ function list_questions(questions_json) {
 		head_div.appendChild(attributes);
 		card_div.appendChild(head_div);
 		prompt.textContent = "Prompt: " + question.prompt;
-		question_constraints.textContent = "Constraint: " + question.constraint;
+		question_constraints.textContent = "Constraint: " + question.restriction;
 		body_div.appendChild(prompt);
 		body_div.appendChild(question_constraints);
 		testcase_header.textContent = "Testcase(s): ";
 		body_div.appendChild(testcase_header);
-		for (var j = 0; j < question.testcases.length; j++) {
+		var j = 1;
+		if(question.restriction != "None") {
+			j = 2;
+		}
+		for (; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
 				tc_input = document.createElement('p'),
 				tc_expected = document.createElement('p'),

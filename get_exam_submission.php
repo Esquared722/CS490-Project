@@ -55,7 +55,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	}
 	$pointsEarned = $qrow["Points"];
 	$maxPoints = $qrow["Max_Points"];
-	$testcase = ["input" => $test, "expected" => $expected, "output" => $output, "result" => $result, "points_earned" => $pointsEarned, "max_points" => $maxPoints];
+	$testcase = ["tcid" => $tcid, "input" => $test, "expected" => $expected, "output" => $output, "result" => $result, "points_earned" => $pointsEarned, "max_points" => $maxPoints];
 	array_push($question["testcases"], $testcase);
 }
 echo json_encode($question);
