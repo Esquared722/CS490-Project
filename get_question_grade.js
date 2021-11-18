@@ -23,7 +23,7 @@ function list_exam_submission(eq_json) {
 	document.getElementById('grade').textContent = eq_json.points_earned;
 	document.getElementById('total_pts').textContent = eq_json.points_total;
 	document.getElementById('answer').textContent = eq_json.answer;
-	document.getElementById('comment').value = eq_json.comments,
+	document.getElementById('comment').textContent = eq_json.comments,
 	document.getElementById('difficulty').textContent = 'Difficulty: ' + eq_json.difficulty,
 	document.getElementById('category').textContent = 'Category: ' + eq_json.category;
 
