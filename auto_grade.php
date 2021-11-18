@@ -60,6 +60,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		
 		while($trow = $tstmt->fetch(PDO::FETCH_ASSOC)) {
 			$pointsEarned = 0;
+			$output = "";
+			$result = 0;
 			$test = $trow["test"];
 			//check for function name
 			$lines = explode("\n", $answer);
@@ -72,27 +74,24 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						$correctName = substr($title, 0, strpos($title, "("));
 						$userFunctionName = substr($lineWords[1], 0, strpos($lineWords[1], "("));
 						if($userFunctionName == $correctName) {
-							$functionNameCorrect = 1;
 							$result = 1;
 							$pointsEarned = $maxPoints;
 							break;
 						} else {
 							$answer = str_replace(" ".$userFunctionName."(", " ".$correctName."(", $answer);
-							$result = 0;
 						}
 					}
 				}
 			} else if($test == "uses restriction") {
 				$maxPoints = $restrictGrade * $qrow["Points"];
 				$restrictionFound = 0;
-				$result = 0;
 				$output = "Restriction Applied";
 				if($restriction == "For Loop") {
 					$restrictionName = "for";
 				} else if ($restriction == "While Loop") {
 					$restrictionName = "while";
 				} else if ($restriction == "Recursion") {
-					$restrictionName = $substr($test, 0, strpos("("));
+					$restrictionName = substr($title, 0, strpos($title, "("));
 				}
 				foreach($lines as $line) {
 					if(strpos($line, "def")) {
@@ -106,27 +105,32 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						}
 					}
 				}
-			} else {		
-				$result = 0;
-				$maxPoints = (1/$numTC) * $testCaseGrade * $qrow["Points"];
-				$fileName = $_SERVER["DOCUMENT_ROOT"]."/$uid$eid$qid.test.py";
-				$myfile = fopen($fileName, "a") or die ("Cant open");
-				fwrite($myfile, $answer);
-				fwrite($myfile, "\n"."print($test)");
-				fclose($myfile);
-				exec("python3 " . $fileName, $out);
-				foreach($out as $val) {
-					$output = $output.$val;
-				}
-				if($output === $trow["expected"]) {
-					$result = 1;
-					$pointsEarned = $maxPoints;
-				}
 			}
-			$tcstmt = getDB()->prepare("INSERT INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints) ON DUPLICATE KEY UPDATE EID = :eid, QID = :qid, TCID = :tcid, UID = :uid, Output = :output, Result = :result, Points = :pointsEarned, Max_Points = :maxPoints");
-			$tcstmt->execute([":eid"=>$eid, ":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output,":result" => $result, ":pointsEarned"=>$pointsEarned, ":maxPoints"=>$maxPoints]);
-			unset($output);
-			unlink($fileName);
+			else{		
+				$maxPoints = (1/$numTC) * $testCaseGrade * $qrow["Points"];
+				$fileName = $_SERVER["DOCUMENT_ROOT"]."/$uid$eid$qid.test.py";	
+				if($answer != "") {
+					$myfile = fopen($fileName, "a") or die ("Cant open");
+					fwrite($myfile, $answer);
+					fwrite($myfile, "\n"."print($test)");
+					fclose($myfile);
+					exec("python3 " . $fileName, $out);
+					if(count($out) > 0) {
+						$output = $out[count($out) - 1];
+						if($output === $trow["expected"]) {
+							$result = 1;
+							$pointsEarned = $maxPoints;
+						}
+					}
+				
+				unlink($fileName);
+				unset($out);
+				}
+			
+				$tcstmt = getDB()->prepare("INSERT INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints) ON DUPLICATE KEY UPDATE EID = :eid, QID = :qid, TCID = :tcid, UID = :uid, Output = :output, Result = :result, Points = :pointsEarned, Max_Points = :maxPoints");
+				$tcstmt->execute([":eid"=>$eid, ":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output,":result" => $result, ":pointsEarned"=>$pointsEarned, ":maxPoints"=>$maxPoints]);
+			
+			}
 		}
 		
 		$pstmt = getDB()->prepare("SELECT SUM(Points) as totalPointsEarned, SUM(Max_Points) as totalPoints FROM QTCS WHERE QID = :qid AND EID = :eid AND UID = :uid");
@@ -138,12 +142,13 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$pstmt->execute([":points_earned" => ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$qrow["Points"], ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
 	}
 	$finalGrade = ($totalQuestionPointsEarned/$totalExamPoints) * 100;
-	$stmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
-	$stmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
-	$stmt = getDB()->prepare("SELECT Grade FROM STE WHERE UID = :uid AND EID = :eid");
-	$stmt->execute([":uid" => $uid, ":eid" => $eid]);
-	$finalGrade = $stmt->fetch()["Grade"];
-	$students = [$userName => $finalGrade];
+	$qstmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
+	$qstmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
+	$qstmt = getDB()->prepare("SELECT Grade FROM STE WHERE UID = :uid AND EID = :eid");
+	$qstmt->execute([":uid" => $uid, ":eid" => $eid]);
+	$finalGrade = $qstmt->fetch()["Grade"];
+	$student = [$userName => $finalGrade];
+	array_push($students, $student);
+	
 }
-echo json_encode($students);
 ?>

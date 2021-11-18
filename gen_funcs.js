@@ -1,6 +1,13 @@
 function logout() {
 	// destroy session
-	window.location = "session_destroy.php";
+	xhr = new XMLHttpRequest();
+	xhr.open('GET', 'session_destroy.php', true);
+	xhr.onreadystatechange=(e)=>{
+		if (xhr.readyState == 4 && xhr.status == 200) {
+				window.location = 'index.html';
+		}
+	};
+	xhr.send();
 }
 
 function check_session(callback, role) {

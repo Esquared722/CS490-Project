@@ -1,7 +1,6 @@
 <?php
 session_start();
 require(__DIR__."/dbconnection.php");
-$sid = $_SESSION['sid'];
 if($_SESSION["role"] == "client") {
 	$uid = $_SESSION["uid"];
 } else {
