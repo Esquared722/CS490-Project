@@ -9,7 +9,6 @@ $stmt = getDB()->prepare("SELECT UID, user_name FROM Users WHERE SID = :sid AND 
 $stmt->execute([":sid" => $sid]);
 $students = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-	array_push($students, $row);
 	$uid = $row["UID"];
 	$userName = $row["user_name"];
 	//select questions from the exam
@@ -34,8 +33,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$astmt = getDB()->prepare("INSERT INTO Answers(UID, EID, QID, Answer) VALUES(:uid, :eid, :qid, :answer)");
         		$astmt->execute([":uid" => $uid, ":eid" => $eid, ":qid" => $qid, ":answer" => ""]);			
 			$answer = "";
-			$stmt = getDB()->prepare("UPDATE STE SET Completed = 1 WHERE UID = :uid AND EID = :eid");
-			$stmt->execute([":uid" => $uid, ":eid" => $eid]);	
+			$astmt = getDB()->prepare("UPDATE STE SET Completed = 1 WHERE UID = :uid AND EID = :eid");
+			$astmt->execute([":uid" => $uid, ":eid" => $eid]);	
 		}
 
 		$tstmt = getDB()->prepare("SELECT COUNT(TCID) as count FROM TestCases WHERE QID = :qid AND test <> 'uses correct function name' AND test <> 'uses restriction'");
@@ -70,7 +69,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$output = "Correct Function Name";
 				$maxPoints = $functionNameGrade * $qrow["Points"];
 				foreach($lines as $line) {
-					if(strpos($line, "def ")) {
+					$lineWords = explode(" ", $line);
+					if($lineWords[0] == "def") {
 						$correctName = substr($title, 0, strpos($title, "("));
 						$userFunctionName = substr($lineWords[1], 0, strpos($lineWords[1], "("));
 						if($userFunctionName == $correctName) {
@@ -79,12 +79,14 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 							break;
 						} else {
 							$answer = str_replace(" ".$userFunctionName."(", " ".$correctName."(", $answer);
+							break;
 						}
 					}
 				}
 			} else if($test == "uses restriction") {
 				$maxPoints = $restrictGrade * $qrow["Points"];
 				$restrictionFound = 0;
+				$restrictionName = "";
 				$output = "Restriction Applied";
 				if($restriction == "For Loop") {
 					$restrictionName = "for";
@@ -94,7 +96,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					$restrictionName = substr($title, 0, strpos($title, "("));
 				}
 				foreach($lines as $line) {
-					if(strpos($line, "def")) {
+					if(strpos($line, "def") !== false) {
 						continue;
 					} else {
 						if(strpos($line, $restrictionName)) {
@@ -147,6 +149,6 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$qstmt->execute([":uid" => $uid, ":eid" => $eid]);
 	$finalGrade = $qstmt->fetch()["Grade"];
 	$student = [$userName => $finalGrade];
+	array_push($students, $student);
 }
-echo json_encode($students);
 ?>
