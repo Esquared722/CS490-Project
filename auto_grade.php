@@ -9,6 +9,7 @@ $stmt = getDB()->prepare("SELECT UID, user_name FROM Users WHERE SID = :sid AND 
 $stmt->execute([":sid" => $sid]);
 $students = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	array_push($students, $row);
 	$uid = $row["UID"];
 	$userName = $row["user_name"];
 	//select questions from the exam
@@ -69,8 +70,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				$output = "Correct Function Name";
 				$maxPoints = $functionNameGrade * $qrow["Points"];
 				foreach($lines as $line) {
-					$lineWords = explode(" ", $line);
-					if($lineWords[0] == "def") {
+					if(strpos($line, "def ")) {
 						$correctName = substr($title, 0, strpos($title, "("));
 						$userFunctionName = substr($lineWords[1], 0, strpos($lineWords[1], "("));
 						if($userFunctionName == $correctName) {
@@ -126,11 +126,10 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 				unlink($fileName);
 				unset($out);
 				}
-			
+			}
 				$tcstmt = getDB()->prepare("INSERT INTO QTCS(EID, QID, TCID, UID, Output, Result, Points, Max_Points) VALUES (:eid, :qid, :tcid, :uid, :output, :result, :pointsEarned, :maxPoints) ON DUPLICATE KEY UPDATE EID = :eid, QID = :qid, TCID = :tcid, UID = :uid, Output = :output, Result = :result, Points = :pointsEarned, Max_Points = :maxPoints");
 				$tcstmt->execute([":eid"=>$eid, ":qid" => $qid, ":tcid" => $trow["TCID"], ":uid" => $uid, ":output" => $output,":result" => $result, ":pointsEarned"=>$pointsEarned, ":maxPoints"=>$maxPoints]);
 			
-			}
 		}
 		
 		$pstmt = getDB()->prepare("SELECT SUM(Points) as totalPointsEarned, SUM(Max_Points) as totalPoints FROM QTCS WHERE QID = :qid AND EID = :eid AND UID = :uid");
@@ -148,7 +147,6 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$qstmt->execute([":uid" => $uid, ":eid" => $eid]);
 	$finalGrade = $qstmt->fetch()["Grade"];
 	$student = [$userName => $finalGrade];
-	array_push($students, $student);
-	
 }
+echo json_encode($students);
 ?>
