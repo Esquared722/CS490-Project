@@ -70,8 +70,10 @@ function update_grades(grade_json) {
 	for (var i = 2; i < student_table.childNodes.length; i++) {
 		var tr = student_table.childNodes[i],
 			grade = tr.childNodes[3],
+			completion_status = tr.childNodes[2],
 			name = tr.childNodes[1].textContent;
 		grade.textContent = grade_json[name] + "%";
+		completion_status.innerHTML = "&#10003"; 
 	}
 }
 
