@@ -20,28 +20,55 @@ function list_questions(questions_json) {
 		var question = questions_json[i],
 			card_div = document.createElement('div'),
 			head_div = document.createElement('div'),
+			tabs_list = document.createElement('ul'),
+			active_tab_li = document.createElement('li'),
+			active_tab_a = document.createElement('a'),
+			tcs_tab_li = document.createElement('li'),
+			tcs_tab_a = document.createElement('a'),
 			body_div = document.createElement('div'),
+			tab_content_div = document.createElement('div'),
+			prompt_div = document.createElement('div'),
+			tcs_div = document.createElement('div'),
 			title = document.createElement('h2'),
 			attributes = document.createElement('p'),
-			prompt = document.createElement('p'),
+			prompt = document.createElement('pre'),
 			question_constraints = document.createElement('p'),
 			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
 		card_div.className = "panel panel-default";
-		card_div.style.width = "34rem"
+		card_div.style.width = "36rem";
+		tab_content_div.className = "tab-content";
 		head_div.className = "panel-heading";
+		tabs_list.className = "nav nav-tabs";
+		active_tab_li.className = "active";
+		active_tab_a.dataset.toggle = "tab";
+		active_tab_a.href = "#q" + question.qid;
+		active_tab_a.textContent = "Prompt";
+		active_tab_li.appendChild(active_tab_a);
+		tabs_list.appendChild(active_tab_li);
+		tcs_tab_a.dataset.toggle = "tab";
+		tcs_tab_a.href = "#tcs" + question.qid;
+		tcs_tab_a.textContent = "Testcase(s)"
+		tcs_tab_li.appendChild(tcs_tab_a);
+		tabs_list.appendChild(tcs_tab_li);
+		head_div.appendChild(tabs_list);
+		card_div.appendChild(head_div);
 		body_div.className = "panel-body";
 		title.textContent = "Title: " + question.title;
-		attributes.innerHTML = "Topic: " + question.category + " &nbsp &nbsp &nbsp &nbsp Difficulty: " + question.difficulty; 
-		head_div.appendChild(title);
-		head_div.appendChild(attributes);
-		card_div.appendChild(head_div);
+		attributes.innerHTML = "Topic: " + question.category + " &nbsp &nbsp &nbsp &nbsp Difficulty: " + question.difficulty;
+		prompt_div.className = "tab-pane fade in active";
+		prompt_div.id = "q" + question.qid;
 		prompt.textContent = "Prompt: " + question.prompt;
 		question_constraints.textContent = "Constraint: " + question.restriction;
-		body_div.appendChild(prompt);
-		body_div.appendChild(question_constraints);
+		prompt_div.appendChild(title);
+		prompt_div.appendChild(attributes);
+		prompt_div.appendChild(prompt);
+		prompt_div.appendChild(question_constraints);
+		tab_content_div.appendChild(prompt_div);
+		tcs_div.className = "tab-pane fade";
+		tcs_div.id = "tcs" + question.qid;
 		testcase_header.textContent = "Testcase(s): ";
-		body_div.appendChild(testcase_header);
+		tcs_div.appendChild(testcase_header);
 		for (var j = question.restriction === 'None' ? 1 : 2; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
 				tc_input = document.createElement('p'),
@@ -53,7 +80,9 @@ function list_questions(questions_json) {
 			testcase_li.appendChild(tc_expected);
 			testcase_list.appendChild(testcase_li);
 		}
-		body_div.appendChild(testcase_list);
+		tcs_div.appendChild(testcase_list);
+		tab_content_div.appendChild(tcs_div);
+		body_div.appendChild(tab_content_div);
 		card_div.appendChild(body_div);
 		div.appendChild(card_div);
 	}
