@@ -32,8 +32,6 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 			$astmt = getDB()->prepare("INSERT INTO Answers(UID, EID, QID, Answer) VALUES(:uid, :eid, :qid, :answer)");
         		$astmt->execute([":uid" => $uid, ":eid" => $eid, ":qid" => $qid, ":answer" => ""]);			
 			$answer = "";
-			$astmt = getDB()->prepare("UPDATE STE SET Completed = 1 WHERE UID = :uid AND EID = :eid");
-			$astmt->execute([":uid" => $uid, ":eid" => $eid]);	
 		}
 
 		$tstmt = getDB()->prepare("SELECT COUNT(TCID) as count FROM TestCases WHERE QID = :qid AND test <> 'uses correct function name' AND test <> 'uses restriction'");
@@ -142,7 +140,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$pstmt->execute([":points_earned" => ($answerPoints["totalPointsEarned"]/$answerPoints["totalPoints"])*$qrow["Points"], ":qid" => $qid, ":eid" => $eid, ":uid" => $uid]);
 	}
 	$finalGrade = ($totalQuestionPointsEarned/$totalExamPoints) * 100;
-	$qstmt = getDB()->prepare("UPDATE STE SET Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
+	$qstmt = getDB()->prepare("UPDATE STE SET Completed = 1 AND Grade = :finalGrade WHERE UID = :uid AND EID = :eid");
 	$qstmt->execute([":finalGrade" => $finalGrade, ":uid" => $uid, ":eid" => $eid]);
 	$qstmt = getDB()->prepare("SELECT Grade FROM STE WHERE UID = :uid AND EID = :eid");
 	$qstmt->execute([":uid" => $uid, ":eid" => $eid]);
