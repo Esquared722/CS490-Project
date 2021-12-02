@@ -7,7 +7,6 @@ $sid = $_SESSION["sid"];
 
 $stmt = getDB()->prepare("SELECT UID, user_name FROM Users WHERE SID = :sid AND role = 'client'");
 $stmt->execute([":sid" => $sid]);
-$students = [];
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$uid = $row["UID"];
 	$userName = $row["user_name"];
@@ -148,7 +147,8 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$qstmt = getDB()->prepare("SELECT Grade FROM STE WHERE UID = :uid AND EID = :eid");
 	$qstmt->execute([":uid" => $uid, ":eid" => $eid]);
 	$finalGrade = $qstmt->fetch()["Grade"];
-	$student = [$userName => $finalGrade];
-	array_push($students, $student);
+	$students[$userName] = $finalGrade;
 }
+
+	echo json_encode($students);
 ?>

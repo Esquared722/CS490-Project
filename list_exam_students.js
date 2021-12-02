@@ -11,7 +11,8 @@ function get_students() {
 	// add Event Listeners
 	document.getElementById('auto_grade_button').addEventListener("click", () => {
 	re.open("GET", "auto_grade.php?eid=" + urlParams.get('eid'));
-	window.location.reload();
+	//window.location.reload();
+	re.onreadystatechange = load_grades;
 	re.send();
 	});
 	document.getElementById('release_button').addEventListener("click", () => {
