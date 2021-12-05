@@ -13,12 +13,14 @@ function load_questions() {
 }
 
 function filter_question_list(q_list) {
-    let category = document.getElementById('topic-list').value,
-    difficulty = document.getElementById('difficulty-list').value;
+    let category = document.getElementById('topic-list').value.toLowerCase(),
+    difficulty = document.getElementById('difficulty-list').value.toLowerCase(),
+    keyword = document.getElementById('search_bar').value.toLowerCase();
 
     const filtered_arr = q_list.filter((question) => {
-        if((!category || question.category.toLowerCase() === category.toLowerCase()) &&
-            (!difficulty || question.difficulty.toLowerCase() === difficulty.toLowerCase()))
+        if((!keyword || question.title.toLowerCase().startsWith(keyword) || question.prompt.toLowerCase().includes(keyword)) 
+	&& (!category || question.category.toLowerCase() === category) 
+	&& (!difficulty || question.difficulty.toLowerCase() === difficulty))
             return question;
     });
 
