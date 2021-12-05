@@ -33,7 +33,6 @@ function list_questions(questions_json) {
 			attributes = document.createElement('p'),
 			prompt = document.createElement('pre'),
 			question_constraints = document.createElement('p'),
-			testcase_header = document.createElement('h3'),
 			testcase_list = document.createElement('ol');
 		card_div.className = "panel panel-default";
 		card_div.style.width = "36rem";
@@ -43,7 +42,7 @@ function list_questions(questions_json) {
 		active_tab_li.className = "active";
 		active_tab_a.dataset.toggle = "tab";
 		active_tab_a.href = "#q" + question.qid;
-		active_tab_a.textContent = "Prompt";
+		active_tab_a.textContent = "Question";
 		active_tab_li.appendChild(active_tab_a);
 		tabs_list.appendChild(active_tab_li);
 		tcs_tab_a.dataset.toggle = "tab";
@@ -54,11 +53,11 @@ function list_questions(questions_json) {
 		head_div.appendChild(tabs_list);
 		card_div.appendChild(head_div);
 		body_div.className = "panel-body";
-		title.textContent = "Title: " + question.title;
+		title.textContent = question.title;
 		attributes.innerHTML = "Topic: " + question.category + " &nbsp &nbsp &nbsp &nbsp Difficulty: " + question.difficulty;
 		prompt_div.className = "tab-pane fade in active";
 		prompt_div.id = "q" + question.qid;
-		prompt.textContent = "Prompt: " + question.prompt;
+		prompt.textContent = question.prompt;
 		question_constraints.textContent = "Constraint: " + question.restriction;
 		prompt_div.appendChild(title);
 		prompt_div.appendChild(attributes);
@@ -67,8 +66,6 @@ function list_questions(questions_json) {
 		tab_content_div.appendChild(prompt_div);
 		tcs_div.className = "tab-pane fade";
 		tcs_div.id = "tcs" + question.qid;
-		testcase_header.textContent = "Testcase(s): ";
-		tcs_div.appendChild(testcase_header);
 		for (var j = question.restriction === 'None' ? 1 : 2; j < question.testcases.length; j++) {
 			var testcase_li = document.createElement('li'),
 				tc_input = document.createElement('p'),
